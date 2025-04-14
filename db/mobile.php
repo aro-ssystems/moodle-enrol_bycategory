@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Enrol self test
+ * Enrol bycategory
  *
  * @package    enrol_bycategory
  * @copyright  2025 ssystems GmbH <oss@ssystems.de>
@@ -27,9 +27,9 @@ defined('MOODLE_INTERNAL') || die;
 $addons = [
   "enrol_bycategory" => [
         "handlers" => [
-            'selftest' => [
+            'bycategory' => [
                 'delegate' => 'CoreEnrolDelegate',
-                'enrolmentAction' => 'bycategory',
+                'enrolmentAction' => 'self',
                 'method' => 'mobile_js',
             ],
         ],
