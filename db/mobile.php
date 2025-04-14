@@ -35,10 +35,10 @@ $addons = [
         ],
         'lang' => [
             ['pluginname', 'enrol_bycategory'],
-            ['confirmselfenrol', 'enrol_bycategory'],
-            ['errorselfenrol', 'enrol_bycategory'],
-            ['nopassword', 'enrol_bycategory'],
-            ['password', 'enrol_bycategory'],
+            ['enrolself', 'enrol_bycategory'],
+            ['canntenrol', 'enrol_bycategory'],
+            ['nopassword', 'enrol_self'],
+            ['password', 'enrol_self'],
         ],
     ],
 ];
