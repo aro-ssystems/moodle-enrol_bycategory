@@ -61,19 +61,6 @@ class enrol_bycategory_plugin extends enrol_plugin {
         return true;
     }
 
-    public function get_name() {
-
-        if (defined('WS_SERVER') && WS_SERVER && isset($_POST['wsfunction']) && $_POST['wsfunction'] == 'enrol_bycategory_get_instance_info') {
-            // This is a webservice call, we need to return the plugin name.
-            return 'self';
-
-        }
-        // second word in class is always enrol name, sorry, no fancy plugin names with _
-        $words = explode('_', get_class($this));
-        return $words[1];
-        // return 'self';
-    }
-
     /**
      * Adds form elements to add/edit instance form.
      * @author  2022 Matthias Tylkowski <matthias.tylkowski@b-tu.de>
