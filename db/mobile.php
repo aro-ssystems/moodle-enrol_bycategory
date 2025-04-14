@@ -35,7 +35,7 @@ $addons = [
         ],
         'lang' => [
             ['pluginname', 'enrol_bycategory'],
-            ['enrolself', 'enrol_bycategory'],
+            ['bycategory:enrolself', 'enrol_bycategory'],
             ['canntenrol', 'enrol_bycategory'],
             ['nopassword', 'enrol_self'],
             ['password', 'enrol_self'],
