@@ -27,10 +27,10 @@ namespace enrol_bycategory\output;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Mobile output class for enrol self test
+ * Mobile output class for enrol_bycategory
  *
- * @package    enrol_selftest
- * @copyright  2023 Dani Palou
+ * @package    enrol_bycategory
+ * @copyright  2025 ssystems GmbH <oss@ssystems.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {
