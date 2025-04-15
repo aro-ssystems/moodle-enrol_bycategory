@@ -62,7 +62,7 @@ class enrol_bycategory_enrol_form extends moodleform {
 
         if ($instance->password) {
             // Change the id of self enrolment key input as there can be multiple self enrolment methods.
-            $mform->addElement('password', 'enrolpassword', get_string('password', 'enrol_self'),
+            $mform->addElement('password', 'enrolpassword', get_string('password', 'enrol_bycategory'),
                     array('id' => 'enrolpassword_'.$instance->id));
             $context = context_course::instance($this->instance->courseid);
             $userfieldsapi = \core_user\fields::for_userpic();
@@ -72,7 +72,7 @@ class enrol_bycategory_enrol_form extends moodleform {
             foreach ($keyholders as $keyholder) {
                 $keyholdercount++;
                 if ($keyholdercount === 1) {
-                    $mform->addElement('static', 'keyholder', '', get_string('keyholder', 'enrol_self'));
+                    $mform->addElement('static', 'keyholder', '', get_string('keyholder', 'enrol_bycategory'));
                 }
                 $keyholdercontext = context_user::instance($keyholder->id);
                 if ($USER->id == $keyholder->id || has_capability('moodle/user:viewdetails', context_system::instance()) ||
@@ -87,7 +87,7 @@ class enrol_bycategory_enrol_form extends moodleform {
             }
 
         } else {
-            $mform->addElement('static', 'nokey', '', get_string('nopassword', 'enrol_self'));
+            $mform->addElement('static', 'nokey', '', get_string('nopassword', 'enrol_bycategory'));
         }
 
         $this->add_action_buttons(false, get_string('enrolme', 'enrol_bycategory'));
@@ -130,16 +130,16 @@ class enrol_bycategory_enrol_form extends moodleform {
                     // Check group enrolment key.
                     if (!enrol_self_check_group_enrolment_key($instance->courseid, $data['enrolpassword'])) {
                         // We can not hint because there are probably multiple passwords.
-                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_self');
+                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_bycategory');
                     }
 
                 } else {
                     $plugin = enrol_get_plugin('bycategory');
                     if ($plugin->get_config('showhint')) {
                         $hint = core_text::substr($instance->password, 0, 1);
-                        $errors['enrolpassword'] = get_string('passwordinvalidhint', 'enrol_self', $hint);
+                        $errors['enrolpassword'] = get_string('passwordinvalidhint', 'enrol_bycategory', $hint);
                     } else {
-                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_self');
+                        $errors['enrolpassword'] = get_string('passwordinvalid', 'enrol_bycategory');
                     }
                 }
             }

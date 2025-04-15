@@ -91,16 +91,16 @@ class enrol_bycategory_plugin extends enrol_plugin {
         $mform->addHelpButton('customint1', 'category', 'enrol_bycategory');
 
         $passattribs = ['size' => '20', 'maxlength' => '50'];
-        $mform->addElement('passwordunmask', 'password', get_string('password', 'enrol_self'), $passattribs);
-        $mform->addHelpButton('password', 'password', 'enrol_self');
+        $mform->addElement('passwordunmask', 'password', get_string('password', 'enrol_bycategory'), $passattribs);
+        $mform->addHelpButton('password', 'password', 'enrol_bycategory');
         if (empty($instance->id) && $this->get_config('requirepassword')) {
             $mform->addRule('password', get_string('required'), 'required', null, 'client');
         }
         $mform->addRule('password', get_string('maximumchars', '', 50), 'maxlength', 50, 'server');
 
         $options = $this->get_groupkey_options();
-        $mform->addElement('select', 'customdec1', get_string('groupkey', 'enrol_self'), $options);
-        $mform->addHelpButton('customdec1', 'groupkey', 'enrol_self');
+        $mform->addElement('select', 'customdec1', get_string('groupkey', 'enrol_bycategory'), $options);
+        $mform->addHelpButton('customdec1', 'groupkey', 'enrol_bycategory');
 
 
         $options = ['optional' => true, 'defaultunit' => DAYSECS, 'units' => [DAYSECS, WEEKSECS]];
@@ -226,7 +226,7 @@ class enrol_bycategory_plugin extends enrol_plugin {
                     }
                 }
                 if ($data['customdec1'] && enrol_self_check_group_enrolment_key($instance->courseid, $data['password'])) {
-                    $errors['password'] = get_string('passwordmatchesgroupkey', 'enrol_self');
+                    $errors['password'] = get_string('passwordmatchesgroupkey', 'enrol_bycategory');
                 }
             }
         }

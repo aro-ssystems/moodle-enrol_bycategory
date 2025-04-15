@@ -110,6 +110,12 @@ Ihr E-Learning-Team';
 $string['expirymessageenrollersubject'] = 'In Kürze endet Ihr Kurs';
 $string['expirynotifyall'] = 'Trainer/in und eingeschriebene Nutzer/innen';
 $string['expirynotifyenroller'] = 'Nur Trainer/in';
+$string['groupkey'] = 'Gruppen-Einschreibeschlüssel verwenden';
+$string['groupkey_desc'] = 'Standardmäßig Gruppen-Einschreibeschlüssel verwenden.';
+$string['groupkey_help'] = 'Zusätzlich zur Beschränkung des Kurszugangs auf Teilnehmer/innen, die den Schlüssel kennen, bewirken Gruppen-Einschreibeschlüssel, dass Nutzer/innen beim Einschreiben automatisch einer Gruppe zugeordnet werden.
+
+Hinweis: Ein Einschreibeschlüssel für den Kurs muss in den Einstellungen der Selbsteinschreibung angegeben werden, ebenso wie die Gruppen-Einschreibeschlüssel in den Gruppeneinstellungen.';
+$string['keyholder'] = 'Sie sollten diesen Einschreibeschlüssel von folgender Person erhalten haben:';
 $string['joinwaitlist'] = 'Warteliste beitreten';
 $string['joinwaitlistmessage'] = 'Sie können der Warteliste beitreten. Sobald ein Platz frei wird, werden Sie per E-Mail informiert.';
 $string['leavewaitlist'] = 'Warteliste verlassen';
@@ -127,6 +133,13 @@ $string['nocategory'] = 'keine Einschränkung';
 $string['nocourseincategory'] = 'Um Zugang zu diesem Kurs zu erhalten, müssen bereits einen Kurs aus dem Kursbereich "{$a}" abgeschlossen haben.';
 $string['nocourseincategorysince'] = 'Um Zugang zu diesem Kurs zu erhalten, müssen bereits einen Kurs aus dem Kursbereich "{$a}" abgeschlossen haben oder ihr Kursabschluss liegt zu weit in der Vergangenheit.';
 $string['nogroup'] = 'Keine Gruppeneinschränkung';
+$string['nopassword'] = 'Kein Einschreibeschlüssel erforderlich.';
+$string['password'] = 'Einschreibeschlüssel';
+$string['password_help'] = 'Ein Einschreibeschlüssel ermöglicht es, den Zugang zum Kurs auf diejenigen zu beschränken, die den Schlüssel kennen.';
+$string['passwordinvalid'] = 'Falscher Einschreibeschlüssel, bitte versuchen Sie es erneut';
+$string['passwordinvalidhint'] = 'Dieser Einschreibeschlüssel war nicht korrekt, bitte versuchen Sie es erneut<br />
+(Hier ist ein Hinweis - er beginnt mit \'{$a}\')';
+$string['passwordmatchesgroupkey'] = 'Dieser Einschreibeschlüssel wird bereits als Gruppen-Einschreibeschlüssel verwendet.';
 $string['notifiedcount'] = 'Benachrichtigt ohne Reaktion';
 $string['onwaitlistsince'] = 'Auf Wartelist seit';
 $string['pluginname'] = 'Einschreibung nach Kursbereich';
