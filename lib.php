@@ -90,19 +90,6 @@ class enrol_bycategory_plugin extends enrol_plugin {
         $mform->addElement('select', 'customint1', get_string('category', 'enrol_bycategory'), $categories);
         $mform->addHelpButton('customint1', 'category', 'enrol_bycategory');
 
-        $passattribs = ['size' => '20', 'maxlength' => '50'];
-        $mform->addElement('passwordunmask', 'password', get_string('password', 'enrol_self'), $passattribs);
-        $mform->addHelpButton('password', 'password', 'enrol_self');
-        if (empty($instance->id) && $this->get_config('requirepassword')) {
-            $mform->addRule('password', get_string('required'), 'required', null, 'client');
-        }
-        $mform->addRule('password', get_string('maximumchars', '', 50), 'maxlength', 50, 'server');
-
-        $options = $this->get_groupkey_options();
-        $mform->addElement('select', 'customdec1', get_string('groupkey', 'enrol_self'), $options);
-        $mform->addHelpButton('customdec1', 'groupkey', 'enrol_self');
-
-
         $options = ['optional' => true, 'defaultunit' => DAYSECS, 'units' => [DAYSECS, WEEKSECS]];
         $mform->addElement('duration', 'customint5', get_string('completionperiod', 'enrol_bycategory'), $options);
         $mform->addHelpButton('customint5', 'completionperiod', 'enrol_bycategory');
@@ -225,45 +212,6 @@ class enrol_bycategory_plugin extends enrol_plugin {
     public function edit_instance_validation($data, $files, $instance, $context) {
         $errors = [];
 
-        $checkpassword = false;
-
-        if ($instance->id) {
-            // Check the password if we are enabling the plugin again.
-            if (($instance->status == ENROL_INSTANCE_DISABLED) && ($data['status'] == ENROL_INSTANCE_ENABLED)) {
-                $checkpassword = true;
-            }
-
-            // Check the password if the instance is enabled and the password has changed.
-            if (($data['status'] == ENROL_INSTANCE_ENABLED) && ($instance->password !== $data['password'])) {
-                $checkpassword = true;
-            }
-
-            // Check the password if we are enabling group enrolment keys.
-            if (!$instance->customdec1 && $data['customdec1']) {
-                $checkpassword = true;
-            }
-        } else {
-            $checkpassword = true;
-        }
-
-        if ($checkpassword) {
-            $require = $this->get_config('requirepassword');
-            $policy = $this->get_config('usepasswordpolicy');
-            if ($require and trim($data['password']) === '') {
-                $errors['password'] = get_string('required');
-            } else if (!empty($data['password'])) {
-                if ($policy) {
-                    $errmsg = '';
-                    if (!check_password_policy($data['password'], $errmsg)) {
-                        $errors['password'] = $errmsg;
-                    }
-                }
-                if ($data['customdec1'] && enrol_self_check_group_enrolment_key($instance->courseid, $data['password'])) {
-                    $errors['password'] = get_string('passwordmatchesgroupkey', 'enrol_self');
-                }
-            }
-        }
-
         if ($data['status'] == ENROL_INSTANCE_ENABLED) {
             if (!empty($data['enrolenddate']) && $data['enrolenddate'] < $data['enrolstartdate']) {
                 $errors['enrolenddate'] = get_string('enrolenddaterror', 'enrol_bycategory');
@@ -302,7 +250,6 @@ class enrol_bycategory_plugin extends enrol_plugin {
             'customint7' => PARAM_INT,
             'customchar1' => $validperiodstarts,
             'customchar2' => $validwaitlist,
-            'customdec1' => PARAM_INT,
             'customdec2' => PARAM_INT,
             'status' => $validstatus,
             'enrolperiod' => PARAM_INT,
@@ -592,11 +539,6 @@ class enrol_bycategory_plugin extends enrol_plugin {
      */
     public function enrol_self(stdClass $instance, $data = null) {
         global $DB, $USER, $CFG;
-
-        // Don't enrol user if password is not passed when required.
-        if ($instance->password && !isset($data->enrolpassword)) {
-            return;
-        }
 
         $enrolresult = $this->enrol_user_manually($instance, $USER->id);
 
@@ -1314,15 +1256,5 @@ class enrol_bycategory_plugin extends enrol_plugin {
         }, array_values($groups));
 
         return [0 => get_string('nogroup', 'enrol_bycategory')] + array_combine(array_keys($groups), $values);
-    }
-
-        /**
-     * Return an array of valid options for the groupkey property.
-     *
-     * @return array
-     */
-    protected function get_groupkey_options() {
-        $options = array(0 => get_string('no'), 1 => get_string('yes'));
-        return $options;
     }
 }
