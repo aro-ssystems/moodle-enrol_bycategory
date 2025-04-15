@@ -219,13 +219,13 @@ class enrol_bycategory_waitlist {
 
         if ($instance->customdec2) {
             require_once("$CFG->dirroot/cohort/lib.php");
-            if (!cohort_is_member($instance->customdec2, $USER->id)) {
-                $cohort = $DB->get_record('cohort', array('id' => $instance->customdec2));
+            if (!cohort_is_member((int)$instance->customdec2, $USER->id)) {
+                $cohort = $DB->get_record('cohort', array('id' => (int)$instance->customdec2));
                 if (!$cohort) {
                     return null;
                 }
                 $a = format_string($cohort->name, true, array('context' => context::instance_by_id($cohort->contextid)));
-                return markdown_to_html(get_string('cohortnonmemberinfo', 'enrol_self', $a));
+                return markdown_to_html(get_string('cohortnonmemberinfo', 'enrol_bycategory', $a));
             }
         }
 

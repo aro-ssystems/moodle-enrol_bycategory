@@ -170,8 +170,8 @@ class enrol_bycategory_plugin extends enrol_plugin {
             $cohorts[$instance->customdec2] = get_string('unknowncohort', 'cohort', $instance->customdec2);
         }
         if (count($cohorts) > 1) {
-            $mform->addElement('select', 'customdec2', get_string('cohortonly', 'enrol_self'), $cohorts);
-            $mform->addHelpButton('customdec2', 'cohortonly', 'enrol_self');
+            $mform->addElement('select', 'customdec2', get_string('cohortonly', 'enrol_bycategory'), $cohorts);
+            $mform->addHelpButton('customdec2', 'cohortonly', 'enrol_bycategory');
         } else {
             $mform->addElement('hidden', 'customdec2');
             $mform->setType('customdec2', PARAM_INT);
