@@ -37,8 +37,8 @@ $addons = [
             ['pluginname', 'enrol_bycategory'],
             ['bycategory:enrolself', 'enrol_bycategory'],
             ['canntenrol', 'enrol_bycategory'],
-            ['nopassword', 'enrol_self'],
-            ['password', 'enrol_self'],
+            ['nopassword', 'enrol_bycategory'],
+            ['password', 'enrol_bycategory'],
         ],
     ],
 ];

@@ -98,7 +98,7 @@ class enrol_user extends external_api {
         // Retrieve the self enrolment plugin.
         $enrol = enrol_get_plugin('bycategory');
         if (empty($enrol)) {
-            throw new \moodle_exception('canntenrol', 'enrol_self');
+            throw new \moodle_exception('canntenrol', 'enrol_bycategory');
         }
 
         // We can expect multiple self-enrolment instances.
@@ -119,7 +119,7 @@ class enrol_user extends external_api {
             }
         }
         if (empty($instances)) {
-            throw new \moodle_exception('canntenrol', 'enrol_self');
+            throw new \moodle_exception('canntenrol', 'enrol_bycategory');
         }
 
         // Try to enrol the user in the instance/s.
@@ -138,7 +138,7 @@ class enrol_user extends external_api {
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '2',
-                                'message' => get_string('passwordinvalid', 'enrol_self')
+                                'message' => get_string('passwordinvalid', 'enrol_bycategory')
                             );
                             continue;
                         }
@@ -149,7 +149,7 @@ class enrol_user extends external_api {
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '3',
-                                'message' => s(get_string('passwordinvalidhint', 'enrol_self', $hint)) // message is PARAM_TEXT.
+                                'message' => s(get_string('passwordinvalidhint', 'enrol_bycategory', $hint)) // message is PARAM_TEXT.
                             );
                             continue;
                         } else {
@@ -157,7 +157,7 @@ class enrol_user extends external_api {
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '4',
-                                'message' => get_string('passwordinvalid', 'enrol_self')
+                                'message' => get_string('passwordinvalid', 'enrol_bycategory')
                             );
                             continue;
                         }

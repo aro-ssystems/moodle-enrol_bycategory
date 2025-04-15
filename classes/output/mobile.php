@@ -43,7 +43,6 @@ class mobile {
      */
     public static function mobile_js($args) {
         global $CFG;
-        error_log("HERE");
         return [
             'templates' => [],
             'javascript' => file_get_contents($CFG->dirroot . '/enrol/bycategory/mobileapp/mobile.js'),
