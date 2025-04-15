@@ -559,6 +559,11 @@ class enrol_bycategory_plugin extends enrol_plugin {
     public function enrol_self(stdClass $instance, $data = null) {
         global $DB, $USER, $CFG;
 
+        // Don't enrol user if password is not passed when required.
+        if ($instance->password && !isset($data->enrolpassword)) {
+            return;
+        }
+
         $enrolresult = $this->enrol_user_manually($instance, $USER->id);
 
         \core\notification::success(get_string('youenrolledincourse', 'enrol'));
