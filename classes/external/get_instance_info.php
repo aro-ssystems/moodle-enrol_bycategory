@@ -42,7 +42,7 @@ require_once("$CFG->libdir/externallib.php");
 class get_instance_info extends external_api {
     /**
      * Parameters description
-     * @return external_description
+     * @return external_function_parameters
      */
     public static function execute_parameters() {
         return new external_function_parameters([
@@ -68,17 +68,15 @@ class get_instance_info extends external_api {
     }
 
     /**
-     * Execute the webservice
-     * @param int $courseid
-     * @return array array of enrolment methods {id,name}
+     * Execute the webservice to retrieve enrollment instance information
+     *
+     * @param int $instanceid ID of the enrollment plugin instance
+     * @return array Information about the enrollment instance including id, courseid, type, name, status, and possibly an enrollment password
      */
     public static function execute($instanceid) {
-
         global $DB, $CFG;
 
         require_once($CFG->libdir . '/enrollib.php');
-
-        error_log("HERE");
 
         $params = self::validate_parameters(self::execute_parameters(), array('instanceid' => $instanceid));
 
@@ -101,9 +99,6 @@ class get_instance_info extends external_api {
             $instanceinfo['enrolpassword'] = $instanceinfo['requiredparam']->enrolpassword;
         }
         unset($instanceinfo->requiredparam);
-        error_log("HERE");
-
-        error_log('get_instance_info: ' . json_encode($instanceinfo));
 
         return $instanceinfo;
     }

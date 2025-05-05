@@ -43,14 +43,14 @@ require_once("$CFG->libdir/externallib.php");
 class enrol_user extends external_api {
     /**
      * Parameters description
-     * @return external_description
+     * @return external_function_parameters
      */
     public static function execute_parameters() {
         return new external_function_parameters(
             array(
                 'courseid' => new external_value(PARAM_INT, 'Id of the course'),
                 'password' => new external_value(PARAM_RAW, 'Enrolment key', VALUE_DEFAULT, ''),
-                'instanceid' => new external_value(PARAM_INT, 'Instance id of self enrolment plugin.', VALUE_DEFAULT, 0)
+                'instanceid' => new external_value(PARAM_INT, 'Instance id of self enrolment plugin.', VALUE_DEFAULT, 0),
             )
         );
     }
@@ -63,15 +63,18 @@ class enrol_user extends external_api {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if the user is enrolled, false otherwise'),
-                'warnings' => new external_warnings()
+                'warnings' => new external_warnings(),
             )
         );
     }
 
     /**
-     * Execute the webservice
-     * @param int $courseid
-     * @return array array of enrolment methods {id,name}
+     * Execute the webservice to enroll a user in a course
+     *
+     * @param int $courseid ID of the course to enroll in
+     * @param string $password Enrollment key (optional)
+     * @param int $instanceid ID of the specific enrollment instance (optional)
+     * @return array Contains status (boolean) and any warnings
      */
     public static function execute($courseid, $password = '', $instanceid = 0) {
         global $CFG;
@@ -82,7 +85,7 @@ class enrol_user extends external_api {
                                             array(
                                                 'courseid' => $courseid,
                                                 'password' => $password,
-                                                'instanceid' => $instanceid
+                                                'instanceid' => $instanceid,
                                             ));
 
         $warnings = array();
