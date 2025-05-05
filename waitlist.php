@@ -47,12 +47,6 @@ require_login();
 
 $waitlist = new enrol_bycategory_waitlist($enrolid);
 
-$results = [];
-
-$params = [
-    'enrolid' => $enrolid,
-];
-
 if (false === $hasmanagecapability) {
     enrol_bycategory_waitlist_show_user_view($waitlist, $course, $instance);
 } else {
