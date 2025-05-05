@@ -35,7 +35,7 @@ use external_warnings;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once "$CFG->libdir/externallib.php";
+require_once("$CFG->libdir/externallib.php");
 
 /**
  * Webservice to retrieve enrol_bycategory instance info
@@ -82,14 +82,14 @@ class enrol_user extends external_api {
     public static function execute($courseid, $password = '', $instanceid = 0) {
         global $CFG;
 
-        include_once $CFG->libdir . '/enrollib.php';
+        require_once($CFG->libdir . '/enrollib.php');
 
         $params = self::validate_parameters(
             self::execute_parameters(),
             [
-                                                'courseid' => $courseid,
-                                                'password' => $password,
-                                                'instanceid' => $instanceid,
+                'courseid' => $courseid,
+                'password' => $password,
+                'instanceid' => $instanceid,
             ]
         );
 
@@ -135,11 +135,11 @@ class enrol_user extends external_api {
         foreach ($instances as $instance) {
             $enrolstatus = $enrol->can_self_enrol($instance);
             if ($enrolstatus === true) {
-                if ($instance->password and $params['password'] !== $instance->password) {
+                if ($instance->password && $params['password'] !== $instance->password) {
 
                     // Check if we are using group enrolment keys.
                     if ($instance->customint1) {
-                        include_once $CFG->dirroot . "/enrol/self/locallib.php";
+                        require_once($CFG->dirroot . "/enrol/self/locallib.php");
 
                         if (!enrol_self_check_group_enrolment_key($course->id, $params['password'])) {
                             $warnings[] = [
@@ -157,7 +157,8 @@ class enrol_user extends external_api {
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '3',
-                                'message' => s(get_string('passwordinvalidhint', 'enrol_bycategory', $hint)), // message is PARAM_TEXT.
+                                // Message is PARAM_TEXT.
+                                'message' => s(get_string('passwordinvalidhint', 'enrol_bycategory', $hint)),
                             ];
                             continue;
                         } else {
@@ -175,7 +176,6 @@ class enrol_user extends external_api {
                 // Do the enrolment.
                 $data = ['enrolpassword' => $params['password']];
 
-                error_log(print_r($instance, true));
                 $enrol->enrol_self($instance, (object) $data);
                 $enrolled = true;
                 break;

@@ -34,7 +34,7 @@ use external_value;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once "$CFG->libdir/externallib.php";
+require_once("$CFG->libdir/externallib.php");
 
 /**
  * Webservice to retrieve enrol_bycategory instance info
@@ -49,7 +49,7 @@ class get_instance_info extends external_api {
     public static function execute_parameters() {
         return new external_function_parameters(
             [
-            'instanceid' => new external_value(PARAM_INT, 'instance id of bycategory enrolment plugin.'),
+                'instanceid' => new external_value(PARAM_INT, 'instance id of bycategory enrolment plugin.'),
             ]
         );
     }
@@ -76,19 +76,19 @@ class get_instance_info extends external_api {
      * Execute the webservice to retrieve enrollment instance information
      *
      * @param  int $instanceid ID of the enrollment plugin instance
-     * @return array Information about the enrollment instance including id, courseid, type, name, status, and possibly an enrollment password
+     * @return array Information about the enrollment instance
      */
     public static function execute($instanceid) {
         global $DB, $CFG;
 
-        include_once $CFG->libdir . '/enrollib.php';
+        require_once($CFG->libdir . '/enrollib.php');
 
         $params = self::validate_parameters(self::execute_parameters(), ['instanceid' => $instanceid]);
 
         // Retrieve self enrolment plugin.
         $enrolplugin = enrol_get_plugin('bycategory');
         if (empty($enrolplugin)) {
-            // throw new moodle_exception('invaliddata', 'error');
+            throw new \moodle_exception('invaliddata', 'error');
         }
 
         self::validate_context(\context_system::instance());
