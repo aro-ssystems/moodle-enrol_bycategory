@@ -24,7 +24,6 @@
 
 namespace enrol_bycategory\output;
 
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Mobile output class for enrol_bycategory
@@ -33,8 +32,8 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2025 ssystems GmbH <oss@ssystems.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mobile
-{
+class mobile {
+
 
     /**
      * Returns the JS to implement app support for enrol self test.
@@ -43,14 +42,13 @@ class mobile
      *
      * @return array   HTML, javascript and otherdata
      */
-    public static function mobile_js($args)
-    {
+    public static function mobile_js($args) {
         global $CFG;
         return [
             'templates' => [],
             'javascript' => file_get_contents($CFG->dirroot . '/enrol/bycategory/mobileapp/mobile.js'),
             'otherdata' => '',
-            'files' => ''
+            'files' => '',
         ];
     }
 
