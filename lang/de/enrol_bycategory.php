@@ -136,12 +136,12 @@ $string['nogroup'] = 'Keine Gruppeneinschränkung';
 $string['nopassword'] = 'Kein Einschreibeschlüssel erforderlich.';
 $string['password'] = 'Einschreibeschlüssel';
 $string['password_help'] = 'Ein Einschreibeschlüssel ermöglicht es, den Zugang zum Kurs auf diejenigen zu beschränken, die den Schlüssel kennen.';
+$string['notifiedcount'] = 'Benachrichtigt ohne Reaktion';
+$string['onwaitlistsince'] = 'Auf Wartelist seit';
 $string['passwordinvalid'] = 'Falscher Einschreibeschlüssel, bitte versuchen Sie es erneut';
 $string['passwordinvalidhint'] = 'Dieser Einschreibeschlüssel war nicht korrekt, bitte versuchen Sie es erneut<br />
 (Hier ist ein Hinweis - er beginnt mit \'{$a}\')';
-$string['notifiedcount'] = 'Benachrichtigt ohne Reaktion';
 $string['passwordmatchesgroupkey'] = 'Dieser Einschreibeschlüssel wird bereits als Gruppen-Einschreibeschlüssel verwendet.';
-$string['onwaitlistsince'] = 'Auf Wartelist seit';
 $string['pluginname'] = 'Einschreibung nach Kursbereich';
 $string['pluginname_desc'] = 'Das Plugin "Einschreibung nach Kursbereich" erlaubt es Nutzer/innen, selber einen Kurs zur Teilnahme auszuwählen. Kurse können von einem Kurs aus einem festgelegten Kursbereich abhängig gemacht werden. Zusätzlich bietet das Plugin eine Wartelistenfunktion an. Intern nutzt die Selbsteinschreibung das Plugin "Manuelle Einschreibung", welches deswegen im Kurs ebenfalls aktiviert sein muss.';
 $string['privacy:metadata'] = 'Das Plugin "Einschreibung nach Kursbereich" speichert keine personenbezogenen Daten.';
