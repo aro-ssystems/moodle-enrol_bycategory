@@ -135,9 +135,9 @@ $string['nocourseincategorysince'] = 'Um Zugang zu diesem Kurs zu erhalten, müs
 $string['nogroup'] = 'Keine Gruppeneinschränkung';
 $string['nopassword'] = 'Kein Einschreibeschlüssel erforderlich.';
 $string['notifiedcount'] = 'Benachrichtigt ohne Reaktion';
+$string['onwaitlistsince'] = 'Auf Wartelist seit';
 $string['password'] = 'Einschreibeschlüssel';
 $string['password_help'] = 'Ein Einschreibeschlüssel ermöglicht es, den Zugang zum Kurs auf diejenigen zu beschränken, die den Schlüssel kennen.';
-$string['onwaitlistsince'] = 'Auf Wartelist seit';
 $string['passwordinvalid'] = 'Falscher Einschreibeschlüssel, bitte versuchen Sie es erneut';
 $string['passwordinvalidhint'] = 'Dieser Einschreibeschlüssel war nicht korrekt, bitte versuchen Sie es erneut<br />
 (Hier ist ein Hinweis - er beginnt mit \'{$a}\')';
