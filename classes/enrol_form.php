@@ -63,7 +63,7 @@ class enrol_bycategory_enrol_form extends moodleform {
         if ($instance->password) {
             // Change the id of self enrolment key input as there can be multiple self enrolment methods.
             $mform->addElement('password', 'enrolpassword', get_string('password', 'enrol_bycategory'),
-                    array('id' => 'enrolpassword_'.$instance->id));
+                    ['id' => 'enrolpassword_'.$instance->id]);
             $context = context_course::instance($this->instance->courseid);
             $userfieldsapi = \core_user\fields::for_userpic();
             $ufields = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
@@ -82,7 +82,7 @@ class enrol_bycategory_enrol_form extends moodleform {
                 } else {
                     $profilelink = fullname($keyholder);
                 }
-                $profilepic = $OUTPUT->user_picture($keyholder, array('size' => 35, 'courseid' => $this->instance->courseid));
+                $profilepic = $OUTPUT->user_picture($keyholder, ['size' => 35, 'courseid' => $this->instance->courseid]);
                 $mform->addElement('static', 'keyholder'.$keyholdercount, '', $profilepic . $profilelink);
             }
 
