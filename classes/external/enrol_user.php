@@ -40,21 +40,20 @@ require_once "$CFG->libdir/externallib.php";
 /**
  * Webservice to retrieve enrol_bycategory instance info
  */
-class enrol_user extends external_api
-{
+class enrol_user extends external_api {
+
     /**
      * Parameters description
      *
      * @return external_function_parameters
      */
-    public static function execute_parameters()
-    {
+    public static function execute_parameters() {
         return new external_function_parameters(
-            array(
+            [
                 'courseid' => new external_value(PARAM_INT, 'Id of the course'),
                 'password' => new external_value(PARAM_RAW, 'Enrolment key', VALUE_DEFAULT, ''),
                 'instanceid' => new external_value(PARAM_INT, 'Instance id of self enrolment plugin.', VALUE_DEFAULT, 0),
-            )
+            ]
         );
     }
 
@@ -63,13 +62,12 @@ class enrol_user extends external_api
      *
      * @return external_description
      */
-    public static function execute_returns()
-    {
+    public static function execute_returns() {
         return new external_single_structure(
-            array(
+            [
                 'status' => new external_value(PARAM_BOOL, 'status: true if the user is enrolled, false otherwise'),
                 'warnings' => new external_warnings(),
-            )
+            ]
         );
     }
 
@@ -81,22 +79,21 @@ class enrol_user extends external_api
      * @param  int    $instanceid ID of the specific enrollment instance (optional)
      * @return array Contains status (boolean) and any warnings
      */
-    public static function execute($courseid, $password = '', $instanceid = 0)
-    {
+    public static function execute($courseid, $password = '', $instanceid = 0) {
         global $CFG;
 
         include_once $CFG->libdir . '/enrollib.php';
 
         $params = self::validate_parameters(
             self::execute_parameters(),
-            array(
+            [
                                                 'courseid' => $courseid,
                                                 'password' => $password,
                                                 'instanceid' => $instanceid,
-            )
+            ]
         );
 
-        $warnings = array();
+        $warnings = [];
 
         $course = get_course($params['courseid']);
         $context = \context_course::instance($course->id);
@@ -113,7 +110,7 @@ class enrol_user extends external_api
         }
 
         // We can expect multiple self-enrolment instances.
-        $instances = array();
+        $instances = [];
         $enrolinstances = enrol_get_instances($course->id, true);
         foreach ($enrolinstances as $courseenrolinstance) {
             if ($courseenrolinstance->enrol == "bycategory") {
@@ -145,54 +142,54 @@ class enrol_user extends external_api
                         include_once $CFG->dirroot . "/enrol/self/locallib.php";
 
                         if (!enrol_self_check_group_enrolment_key($course->id, $params['password'])) {
-                            $warnings[] = array(
+                            $warnings[] = [
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '2',
-                                'message' => get_string('passwordinvalid', 'enrol_bycategory')
-                            );
+                                'message' => get_string('passwordinvalid', 'enrol_bycategory'),
+                            ];
                             continue;
                         }
                     } else {
                         if ($enrol->get_config('showhint')) {
                             $hint = \core_text::substr($instance->password, 0, 1);
-                            $warnings[] = array(
+                            $warnings[] = [
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '3',
-                                'message' => s(get_string('passwordinvalidhint', 'enrol_bycategory', $hint)) // message is PARAM_TEXT.
-                            );
+                                'message' => s(get_string('passwordinvalidhint', 'enrol_bycategory', $hint)), // message is PARAM_TEXT.
+                            ];
                             continue;
                         } else {
-                            $warnings[] = array(
+                            $warnings[] = [
                                 'item' => 'instance',
                                 'itemid' => $instance->id,
                                 'warningcode' => '4',
-                                'message' => get_string('passwordinvalid', 'enrol_bycategory')
-                            );
+                                'message' => get_string('passwordinvalid', 'enrol_bycategory'),
+                            ];
                             continue;
                         }
                     }
                 }
 
                 // Do the enrolment.
-                $data = array('enrolpassword' => $params['password']);
+                $data = ['enrolpassword' => $params['password']];
 
                 error_log(print_r($instance, true));
                 $enrol->enrol_self($instance, (object) $data);
                 $enrolled = true;
                 break;
             } else {
-                $warnings[] = array(
+                $warnings[] = [
                     'item' => 'instance',
                     'itemid' => $instance->id,
                     'warningcode' => '1',
-                    'message' => $enrolstatus
-                );
+                    'message' => $enrolstatus,
+                ];
             }
         }
 
-        $result = array();
+        $result = [];
         $result['status'] = $enrolled;
         $result['warnings'] = $warnings;
         return $result;

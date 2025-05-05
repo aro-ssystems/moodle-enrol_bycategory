@@ -35,20 +35,20 @@ $functions = [
         'classpath' => 'enrol/bycategory/external/get_enrolment_methods.php',
         'methodname' => 'execute',
     ],
-    'enrol_bycategory_get_instance_info' => array(
+    'enrol_bycategory_get_instance_info' => [
         'classname'   => '\enrol_bycategory\external\get_instance_info',
         'methodname'  => 'execute',
         'classpath'   => 'enrol/bycategory/classes/external/get_instance_info.php',
         'description' => 'enrol_bycategory instance information.',
         'type'        => 'read',
-        'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
-    ),
-    'enrol_bycategory_enrol_user' => array(
+        'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
+    'enrol_bycategory_enrol_user' => [
         'classname'   => '\enrol_bycategory\external\enrol_user',
         'methodname'  => 'execute',
         'classpath'   => 'enrol/bycategory/classes/external/enrol_user.php',
         'description' => 'bycategory enrol the current user in the given course.',
         'type'        => 'write',
-        'services'    => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
-    )
+        'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
+    ],
 ];
