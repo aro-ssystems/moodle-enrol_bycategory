@@ -115,9 +115,9 @@ $string['groupkey_desc'] = 'Standardmäßig Gruppen-Einschreibeschlüssel verwen
 $string['groupkey_help'] = 'Zusätzlich zur Beschränkung des Kurszugangs auf Teilnehmer/innen, die den Schlüssel kennen, bewirken Gruppen-Einschreibeschlüssel, dass Nutzer/innen beim Einschreiben automatisch einer Gruppe zugeordnet werden.
 
 Hinweis: Ein Einschreibeschlüssel für den Kurs muss in den Einstellungen der Selbsteinschreibung angegeben werden, ebenso wie die Gruppen-Einschreibeschlüssel in den Gruppeneinstellungen.';
-$string['keyholder'] = 'Sie sollten diesen Einschreibeschlüssel von folgender Person erhalten haben:';
 $string['joinwaitlist'] = 'Warteliste beitreten';
 $string['joinwaitlistmessage'] = 'Sie können der Warteliste beitreten. Sobald ein Platz frei wird, werden Sie per E-Mail informiert.';
+$string['keyholder'] = 'Sie sollten diesen Einschreibeschlüssel von folgender Person erhalten haben:';
 $string['leavewaitlist'] = 'Warteliste verlassen';
 $string['longtimenosee'] = 'Inaktive abmelden';
 $string['longtimenosee_help'] = 'Wenn Personen lange Zeit nicht mehr auf den Kurs zugegriffen haben, werden sie automatisch abgemeldet. Dieser Parameter legt die maximale Inaktivitätsdauer fest.';
@@ -139,8 +139,8 @@ $string['password_help'] = 'Ein Einschreibeschlüssel ermöglicht es, den Zugang
 $string['passwordinvalid'] = 'Falscher Einschreibeschlüssel, bitte versuchen Sie es erneut';
 $string['passwordinvalidhint'] = 'Dieser Einschreibeschlüssel war nicht korrekt, bitte versuchen Sie es erneut<br />
 (Hier ist ein Hinweis - er beginnt mit \'{$a}\')';
-$string['passwordmatchesgroupkey'] = 'Dieser Einschreibeschlüssel wird bereits als Gruppen-Einschreibeschlüssel verwendet.';
 $string['notifiedcount'] = 'Benachrichtigt ohne Reaktion';
+$string['passwordmatchesgroupkey'] = 'Dieser Einschreibeschlüssel wird bereits als Gruppen-Einschreibeschlüssel verwendet.';
 $string['onwaitlistsince'] = 'Auf Wartelist seit';
 $string['pluginname'] = 'Einschreibung nach Kursbereich';
 $string['pluginname_desc'] = 'Das Plugin "Einschreibung nach Kursbereich" erlaubt es Nutzer/innen, selber einen Kurs zur Teilnahme auszuwählen. Kurse können von einem Kurs aus einem festgelegten Kursbereich abhängig gemacht werden. Zusätzlich bietet das Plugin eine Wartelistenfunktion an. Intern nutzt die Selbsteinschreibung das Plugin "Manuelle Einschreibung", welches deswegen im Kurs ebenfalls aktiviert sein muss.';

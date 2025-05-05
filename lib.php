@@ -102,7 +102,6 @@ class enrol_bycategory_plugin extends enrol_plugin {
         $mform->addElement('select', 'customdec1', get_string('groupkey', 'enrol_bycategory'), $options);
         $mform->addHelpButton('customdec1', 'groupkey', 'enrol_bycategory');
 
-
         $options = ['optional' => true, 'defaultunit' => DAYSECS, 'units' => [DAYSECS, WEEKSECS]];
         $mform->addElement('duration', 'customint5', get_string('completionperiod', 'enrol_bycategory'), $options);
         $mform->addHelpButton('customint5', 'completionperiod', 'enrol_bycategory');
@@ -216,7 +215,7 @@ class enrol_bycategory_plugin extends enrol_plugin {
         if ($checkpassword) {
             $require = $this->get_config('requirepassword');
             $policy = $this->get_config('usepasswordpolicy');
-            if ($require and trim($data['password']) === '') {
+            if ($require && trim($data['password']) === '') {
                 $errors['password'] = get_string('required');
             } else if (!empty($data['password'])) {
                 if ($policy) {
@@ -1283,12 +1282,12 @@ class enrol_bycategory_plugin extends enrol_plugin {
     }
 
         /**
-     * Return an array of valid options for the groupkey property.
-     *
-     * @return array
-     */
+         * Return an array of valid options for the groupkey property.
+         *
+         * @return array
+         */
     protected function get_groupkey_options() {
-        $options = array(0 => get_string('no'), 1 => get_string('yes'));
+        $options = [0 => get_string('no'), 1 => get_string('yes')];
         return $options;
     }
 }
