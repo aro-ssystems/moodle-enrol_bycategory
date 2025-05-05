@@ -17,9 +17,9 @@
 /**
  * Enrol bycategory
  *
- * @package    enrol_bycategory
- * @copyright  2025 ssystems GmbH <oss@ssystems.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   enrol_bycategory
+ * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace enrol_bycategory\output;
@@ -29,19 +29,22 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Mobile output class for enrol_bycategory
  *
- * @package    enrol_bycategory
- * @copyright  2025 ssystems GmbH <oss@ssystems.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   enrol_bycategory
+ * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mobile {
+class mobile
+{
 
     /**
      * Returns the JS to implement app support for enrol self test.
-     * @param  array $args Arguments from tool_mobile_get_content WS
+     *
+     * @param array $args Arguments from tool_mobile_get_content WS
      *
      * @return array   HTML, javascript and otherdata
      */
-    public static function mobile_js($args) {
+    public static function mobile_js($args)
+    {
         global $CFG;
         return [
             'templates' => [],

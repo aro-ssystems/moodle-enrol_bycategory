@@ -17,9 +17,9 @@
 /**
  * get_instance_info webservice
  *
- * @package    enrol_bycategory
- * @copyright  2025 ssystems GmbH <oss@ssystems.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   enrol_bycategory
+ * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace enrol_bycategory\external;
@@ -34,27 +34,34 @@ use external_value;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once("$CFG->libdir/externallib.php");
+require_once "$CFG->libdir/externallib.php";
 
 /**
  * Webservice to retrieve enrol_bycategory instance info
  */
-class get_instance_info extends external_api {
+class get_instance_info extends external_api
+{
     /**
      * Parameters description
+     *
      * @return external_function_parameters
      */
-    public static function execute_parameters() {
-        return new external_function_parameters([
+    public static function execute_parameters()
+    {
+        return new external_function_parameters(
+            [
             'instanceid' => new external_value(PARAM_INT, 'instance id of bycategory enrolment plugin.'),
-        ]);
+            ]
+        );
     }
 
     /**
      * Return parameters description
+     *
      * @return external_description
      */
-    public static function execute_returns() {
+    public static function execute_returns()
+    {
         return new external_single_structure(
             array(
                 'id' => new external_value(PARAM_INT, 'id of course enrolment instance'),
@@ -70,13 +77,14 @@ class get_instance_info extends external_api {
     /**
      * Execute the webservice to retrieve enrollment instance information
      *
-     * @param int $instanceid ID of the enrollment plugin instance
+     * @param  int $instanceid ID of the enrollment plugin instance
      * @return array Information about the enrollment instance including id, courseid, type, name, status, and possibly an enrollment password
      */
-    public static function execute($instanceid) {
+    public static function execute($instanceid)
+    {
         global $DB, $CFG;
 
-        require_once($CFG->libdir . '/enrollib.php');
+        include_once $CFG->libdir . '/enrollib.php';
 
         $params = self::validate_parameters(self::execute_parameters(), array('instanceid' => $instanceid));
 

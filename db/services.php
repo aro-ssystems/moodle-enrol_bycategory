@@ -17,9 +17,9 @@
 /**
  * Webservices of enrol bycategory plugin
  *
- * @package    enrol_bycategory
- * @copyright  2022 Matthias Tylkowski <matthias.tylkowski@b-tu.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   enrol_bycategory
+ * @copyright 2022 Matthias Tylkowski <matthias.tylkowski@b-tu.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 

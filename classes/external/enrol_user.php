@@ -17,9 +17,9 @@
 /**
  * get_instance_info webservice
  *
- * @package    enrol_bycategory
- * @copyright  2025 ssystems GmbH <oss@ssystems.de>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   enrol_bycategory
+ * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace enrol_bycategory\external;
@@ -35,17 +35,20 @@ use external_warnings;
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
-require_once("$CFG->libdir/externallib.php");
+require_once "$CFG->libdir/externallib.php";
 
 /**
  * Webservice to retrieve enrol_bycategory instance info
  */
-class enrol_user extends external_api {
+class enrol_user extends external_api
+{
     /**
      * Parameters description
+     *
      * @return external_function_parameters
      */
-    public static function execute_parameters() {
+    public static function execute_parameters()
+    {
         return new external_function_parameters(
             array(
                 'courseid' => new external_value(PARAM_INT, 'Id of the course'),
@@ -57,9 +60,11 @@ class enrol_user extends external_api {
 
     /**
      * Return parameters description
+     *
      * @return external_description
      */
-    public static function execute_returns() {
+    public static function execute_returns()
+    {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if the user is enrolled, false otherwise'),
@@ -71,22 +76,25 @@ class enrol_user extends external_api {
     /**
      * Execute the webservice to enroll a user in a course
      *
-     * @param int $courseid ID of the course to enroll in
-     * @param string $password Enrollment key (optional)
-     * @param int $instanceid ID of the specific enrollment instance (optional)
+     * @param  int    $courseid   ID of the course to enroll in
+     * @param  string $password   Enrollment key (optional)
+     * @param  int    $instanceid ID of the specific enrollment instance (optional)
      * @return array Contains status (boolean) and any warnings
      */
-    public static function execute($courseid, $password = '', $instanceid = 0) {
+    public static function execute($courseid, $password = '', $instanceid = 0)
+    {
         global $CFG;
 
-        require_once($CFG->libdir . '/enrollib.php');
+        include_once $CFG->libdir . '/enrollib.php';
 
-        $params = self::validate_parameters(self::execute_parameters(),
-                                            array(
+        $params = self::validate_parameters(
+            self::execute_parameters(),
+            array(
                                                 'courseid' => $courseid,
                                                 'password' => $password,
                                                 'instanceid' => $instanceid,
-                                            ));
+            )
+        );
 
         $warnings = array();
 
@@ -134,7 +142,7 @@ class enrol_user extends external_api {
 
                     // Check if we are using group enrolment keys.
                     if ($instance->customint1) {
-                        require_once($CFG->dirroot . "/enrol/self/locallib.php");
+                        include_once $CFG->dirroot . "/enrol/self/locallib.php";
 
                         if (!enrol_self_check_group_enrolment_key($course->id, $params['password'])) {
                             $warnings[] = array(
