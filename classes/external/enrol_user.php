@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * get_instance_info webservice
+ * enrol_user webservice
  *
  * @package   enrol_bycategory
- * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @copyright 2025 Andreas Rosenthal, ssystems GmbH <arosenthal@ssystems.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -18,7 +18,7 @@
  * Enrol bycategory
  *
  * @package   enrol_bycategory
- * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @copyright 2025 Andreas Rosenthal, ssystems GmbH <arosenthal@ssystems.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,7 +29,7 @@ namespace enrol_bycategory\output;
  * Mobile output class for enrol_bycategory
  *
  * @package   enrol_bycategory
- * @copyright 2025 ssystems GmbH <oss@ssystems.de>
+ * @copyright 2025 Andreas Rosenthal, ssystems GmbH <arosenthal@ssystems.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {
