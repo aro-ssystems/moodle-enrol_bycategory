@@ -769,14 +769,14 @@ final class bycategory_test extends \advanced_testcase {
         $cohort2 = $this->getDataGenerator()->create_cohort();
 
         $id1 = $plugin->add_instance($course14, $plugin->get_instance_defaults());
-        $instance15 = $DB->get_record('enrol', array('id'=>$id1), '*', MUST_EXIST);
+        $instance15 = $DB->get_record('enrol', ['id' => $id1], '*', MUST_EXIST);
 
         $instance15->customint8 = $cohort1->id;
         $DB->update_record('enrol', $instance15);
         $plugin->update_status($instance15, ENROL_INSTANCE_ENABLED);
 
         $id2 = $plugin->add_instance($course15, $plugin->get_instance_defaults());
-        $instance16 = $DB->get_record('enrol', array('id'=>$id2), '*', MUST_EXIST);
+        $instance16 = $DB->get_record('enrol', ['id' => $id2], '*', MUST_EXIST);
 
         $instance16->customint8 = $cohort2->id;
         $DB->update_record('enrol', $instance16);
