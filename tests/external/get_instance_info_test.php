@@ -110,7 +110,7 @@ final class get_instance_info_test extends externallib_advanced_testcase {
             'name' => 'Test bycategory',
             'password' => 'secretpassword',
             'customint1' => 0,
-            'customint6' => 1, // Allow new enrolments
+            'customint6' => 1,
         ]);
 
         $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);

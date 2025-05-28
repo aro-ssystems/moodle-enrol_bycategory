@@ -110,8 +110,8 @@ final class enrol_user_test extends externallib_advanced_testcase {
             'status' => ENROL_INSTANCE_ENABLED,
             'name' => 'Test bycategory',
             'password' => 'correctpassword',
-            'customint1' => 0, // No group enrolment keys
-            'customint6' => 1, // Allow new enrolments
+            'customint1' => 0,
+            'customint6' => 1,
         ]);
 
         $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);
@@ -123,7 +123,6 @@ final class enrol_user_test extends externallib_advanced_testcase {
             $returnvalue
         );
 
-        // Verify the returned data
         $this->assertFalse($returnvalue['status']);
         $this->assertNotEmpty($returnvalue['warnings']);
         $this->assertEquals('instance', $returnvalue['warnings'][0]['item']);
@@ -203,7 +202,6 @@ final class enrol_user_test extends externallib_advanced_testcase {
             'customint1' => 0,
             'customint6' => 1,
         ]);
-
 
         $instance = $DB->get_record('enrol', ['id' => $instanceid], '*', MUST_EXIST);
 
