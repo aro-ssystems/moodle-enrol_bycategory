@@ -68,6 +68,12 @@ class get_instance_info extends external_api {
                 'name' => new external_value(PARAM_RAW, 'name of enrolment plugin'),
                 'status' => new external_value(PARAM_RAW, 'status of enrolment plugin'),
                 'enrolpassword' => new external_value(PARAM_RAW, 'password required for enrolment', VALUE_OPTIONAL),
+                'waitlist' => new external_value(
+                    PARAM_BOOL,
+                    'whether waitlist is enabled for this instance',
+                    VALUE_DEFAULT,
+                    false
+                ),
             ]
         );
     }
@@ -104,6 +110,10 @@ class get_instance_info extends external_api {
             $instanceinfo['enrolpassword'] = $instanceinfo['requiredparam']->enrolpassword;
         }
         unset($instanceinfo->requiredparam);
+
+        $instanceinfo['waitlist'] = (int) $enrolinstance->customchar2;
+
+        error_log(print_r($instanceinfo, true));
 
         return $instanceinfo;
     }

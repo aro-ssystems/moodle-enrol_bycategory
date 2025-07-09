@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,18 +13,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Plugin version and other meta-data are defined here.
- *
- * @package     enrol_bycategory
- * @copyright   2022 Matthias Tylkowski <matthias.tylkowski@b-tu.de>
- * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 
-defined('MOODLE_INTERNAL') || die();
+var result = {
 
-$plugin->component = 'enrol_bycategory';
-$plugin->release = '1.3.1';
-$plugin->version = 2025060300;
-$plugin->requires = 2022041912; // Moodle 4.0.
-$plugin->maturity = MATURITY_STABLE;
+    componentInit: async () => {
+        let promise = Promise.resolve()
+
+        promise = this.CoreDomUtilsProvider.showConfirm(
+                this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
+                this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+                'lol',
+        );
+
+        try {
+            await promise;
+            return performEnrol(method);
+        } catch {
+            return false;
+        }
+    },
+};
+
+result;
