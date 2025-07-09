@@ -31,6 +31,12 @@ $addons = [
                 'delegate' => 'CoreEnrolDelegate',
                 'enrolmentAction' => 'self',
                 'method' => 'mobile_js',
+                'init' => 'mobile_init',
+            ],
+            'bycategory_waitlist' => [
+                'delegate' => '',
+                // 'method' => 'mobile_init',
+                'init' => 'mobile_init',
             ],
         ],
         'lang' => [

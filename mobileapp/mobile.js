@@ -13,6 +13,53 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+// import {getString} from 'core/str';
+
+// class EnrolBycategoryHandler extends this.CoreEnrolSelfHandler {
+
+//         constructor() {
+//         super();
+
+//         }
+
+//      async canAccess(method) {
+
+//         let promise = Promise.resolve()
+
+//         promise = this.CoreDomUtilsProvider.showConfirm(
+//                 this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
+//                 this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+//                 'lol',
+//         );
+
+//         try {
+//              await promise;
+//              return performEnrol(method);
+//          } catch {
+//              return false;
+//          }
+//     }
+
+// }
+
+// this.CoreEnrolDelegate.registerHandler(new EnrolBycategoryHandler());
+
+// this.CoreEnrolDelegate.canAccess = (method) => {
+//     let promise = Promise.resolve();
+
+//     promise = this.CoreDomUtilsProvider.showConfirm(
+//         this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
+//         this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+//         'lol',
+//     );
+
+//     return promise.then(() => {
+//         return performEnrol(method);
+//     }).catch(() => {
+//         return false;
+//     });
+// }
+
 const getEnrolmentInfoCacheKey = (id) => {
     return 'PluginEnrolByCategory:' + id;
 };
@@ -37,9 +84,27 @@ const invalidateEnrolmentInfo = (id) => {
     return site.invalidateWsCacheForKey(getEnrolmentInfoCacheKey(id));
 };
 
-const selfEnrol = (courseId, password, instanceId) => {
+const selfEnrol = async (courseId, password, instanceId) => {
     const site = this.CoreSitesProvider.getCurrentSite();
 
+    let promise = Promise.resolve();
+
+    promise = this.CoreDomUtilsProvider.showConfirm(
+            this.INIT_TEMPLATES.joinwaitlistmessage,
+            this.INIT_TEMPLATES.waitlist,
+            this.INIT_TEMPLATES.joinwaitlist,
+    );
+
+    // await promise;
+
+    // const waitlistInfo = await getString('joinwaitlistmessage', 'enrol_bycategory');
+
+    // promise = this.CoreDomUtilsProvider.showConfirm(
+    //         'WAITLIST ACTIVE',
+    //         waitlistInfo,
+    // );
+
+    return promise.then(() => {
     const params = {
         courseid: courseId,
         password: password,
@@ -67,6 +132,46 @@ const selfEnrol = (courseId, password, instanceId) => {
 
         throw Error('WS enrol_bycategory_enrol_user failed without warnings');
     });
+    });
+    // .catch(async () => {
+
+    //         promise = this.CoreDomUtilsProvider.showAlert(
+    //         'HEADER',
+    //         'SECOND',
+    // );
+
+    //     await promise;
+
+    //     return false;
+    // });
+
+    // const params = {
+    //     courseid: courseId,
+    //     password: password,
+    // };
+    // if (instanceId) {
+    //     params.instanceid = instanceId;
+    // }
+
+    // return site.write('enrol_bycategory_enrol_user', params).then(response => {
+    //     if (response.status) {
+    //         return true;
+    //     }
+
+    //     if (response.warnings && response.warnings.length) {
+    //         // Invalid password warnings.
+    //         const warning = response.warnings.find((warning) =>
+    //             warning.warningcode == '2' || warning.warningcode == '3' || warning.warningcode == '4');
+
+    //         if (warning) {
+    //             throw new this.CoreWSError({ errorcode: this.CoreCoursesProvider.ENROL_INVALID_KEY, message: warning.message });
+    //         } else {
+    //             throw new this.CoreWSError(response.warnings[0]);
+    //         }
+    //     }
+
+    //     throw Error('WS enrol_bycategory_enrol_user failed without warnings');
+    // });
 };
 
 const validatePassword = (method, password) => {
@@ -119,6 +224,38 @@ const performEnrol = (method) => {
 };
 
 var result = {
+    // canAccess: (method) => {
+    // let promise = Promise.resolve()
+
+    // promise = this.CoreDomUtilsProvider.showConfirm(
+    //         this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
+    //         this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+    //         'lol',
+    // );
+
+    // return promise.then(() => {
+    //     return performEnrol(method);
+    // }).catch(() => {
+    //     return false;
+    // });
+
+    //     return true
+    // },
+    // componentInit: () => {
+    //     let promise = Promise.resolve()
+
+    //     promise = this.CoreDomUtilsProvider.showConfirm(
+    //             this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
+    //             this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+    //             'lol',
+    //     );
+
+    //     return promise.then(() => {
+    //         return performEnrol(method);
+    //     }).catch(() => {
+    //         return false;
+    //     });
+    // },
     getInfoIcons: (courseId) => {
         return this.CoreEnrolService.getSupportedCourseEnrolmentMethods(courseId, 'bycategory').then(enrolments => {
             if (!enrolments.length) {
