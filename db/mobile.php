@@ -31,20 +31,34 @@ $addons = [
                 'delegate' => 'CoreEnrolDelegate',
                 'enrolmentAction' => 'self',
                 'method' => 'mobile_js',
-                'init' => 'mobile_init',
+                // 'init' => 'mobile_init',
             ],
-            'bycategory_waitlist' => [
-                'delegate' => '',
-                // 'method' => 'mobile_init',
-                'init' => 'mobile_init',
-            ],
+            // 'enrolbycategory_filter' => [
+            //     // 'delegate' => 'CoreFilterDelegate',
+            //     'method' => 'mobile_js',
+            // ],
+        //     'bycategory_waitlist' => [
+        //         'delegate' => 'CoreCourseOptionsDelegate',
+        //         'displaydata' => [
+        //             'title' => 'just testing'
+        //         ],
+        //         'ismenuhandler' => true,
+        //         'method' => 'waitlist_js',
+        //     //     // 'init' => 'mobile_init',
+        //     // ],
         ],
         'lang' => [
             ['pluginname', 'enrol_bycategory'],
             ['bycategory:enrolself', 'enrol_bycategory'],
             ['canntenrol', 'enrol_bycategory'],
             ['nopassword', 'enrol_bycategory'],
+            ['confirmselfenrol', 'enrol_bycategory'],
             ['password', 'enrol_bycategory'],
+            ['waitlist', 'enrol_bycategory'],
+            ['joinwaitlist', 'enrol_bycategory'],
+            ['joinwaitlistmessage', 'enrol_bycategory'],
+            ['waitlistmessage', 'enrol_bycategory'],
+
         ],
     ],
 ];

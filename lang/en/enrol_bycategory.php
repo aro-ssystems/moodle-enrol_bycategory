@@ -60,6 +60,7 @@ $string['cohortonly_help'] = 'Enrolment by category may be restricted to members
 $string['completionperiod'] = 'Timelimit since completion';
 $string['completionperiod_help'] = 'Allowed duration since completing a course in the configured category.';
 $string['confirmbulkdeleteenrolment'] = 'Are you sure you want to delete these user enrolments?';
+$string['confirmselfenrol'] = 'Are you sure you want to enrol yourself in this course?';
 $string['courseid'] = 'Course ID';
 $string['customwelcomemessage'] = 'Custom welcome message';
 $string['customwelcomemessage_help'] = 'A custom welcome message may be added as plain text or Moodle-auto format, including HTML tags and multi-lang tags.
@@ -115,6 +116,7 @@ $string['groupkey_help'] = 'In addition to restricting access to the course to o
 Note: An enrolment key for the course must be specified in the self enrolment settings as well as group enrolment keys in the group settings.';
 $string['joinwaitlist'] = 'Join waiting list';
 $string['joinwaitlistmessage'] = 'You can join the waiting list and will be informed every day when a slot becomes available.';
+$string['waitlistmessage'] = 'There is a waiting list for this course.';
 $string['keyholder'] = 'You should have received this enrolment key from:';
 $string['leavewaitlist'] = 'Leave waiting list';
 $string['longtimenosee'] = 'Unenrol inactive after';
