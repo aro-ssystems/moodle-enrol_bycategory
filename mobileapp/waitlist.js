@@ -20,8 +20,7 @@ var result = {
         let promise = Promise.resolve()
 
         promise = this.CoreDomUtilsProvider.showConfirm(
-                this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-                this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+                'WURST',
                 'lol',
         );
 

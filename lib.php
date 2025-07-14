@@ -1084,7 +1084,7 @@ class enrol_bycategory_plugin extends enrol_plugin {
         $a->coursename = format_string($course->fullname, true, ['context' => $context]);
         $a->profileurl = "$CFG->wwwroot/user/view.php?id=$user->id&course=$course->id";
 
-        if (trim($instance->customtext1) !== '') {
+        if (!empty($instance->customtext1) &&trim($instance->customtext1) !== '') {
             $message = $instance->customtext1;
             $key = ['{$a->coursename}', '{$a->profileurl}', '{$a->fullname}', '{$a->email}'];
             $value = [$a->coursename, $a->profileurl, fullname($user), $user->email];

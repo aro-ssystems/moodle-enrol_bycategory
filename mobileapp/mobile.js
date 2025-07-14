@@ -13,52 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// import {getString} from 'core/str';
-
-// class EnrolBycategoryHandler extends this.CoreEnrolSelfHandler {
-
-//         constructor() {
-//         super();
-
-//         }
-
-//      async canAccess(method) {
-
-//         let promise = Promise.resolve()
-
-//         promise = this.CoreDomUtilsProvider.showConfirm(
-//                 this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-//                 this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
-//                 'lol',
-//         );
-
-//         try {
-//              await promise;
-//              return performEnrol(method);
-//          } catch {
-//              return false;
-//          }
-//     }
-
-// }
-
-// this.CoreEnrolDelegate.registerHandler(new EnrolBycategoryHandler());
-
-// this.CoreEnrolDelegate.canAccess = (method) => {
-//     let promise = Promise.resolve();
-
-//     promise = this.CoreDomUtilsProvider.showConfirm(
-//         this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-//         this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
-//         'lol',
-//     );
-
-//     return promise.then(() => {
-//         return performEnrol(method);
-//     }).catch(() => {
-//         return false;
-//     });
-// }
 
 const getEnrolmentInfoCacheKey = (id) => {
     return 'PluginEnrolByCategory:' + id;
@@ -78,42 +32,29 @@ const getEnrolmentInfo = (id) => {
     return site.read('enrol_bycategory_get_instance_info', params, preSets);
 };
 
+
 const invalidateEnrolmentInfo = (id) => {
     const site = this.CoreSitesProvider.getCurrentSite();
 
     return site.invalidateWsCacheForKey(getEnrolmentInfoCacheKey(id));
 };
 
-const selfEnrol = async (courseId, password, instanceId) => {
+const selfEnrol = async (courseId, password, instanceId, info) => {
     const site = this.CoreSitesProvider.getCurrentSite();
 
-    let promise = Promise.resolve();
-
-    promise = this.CoreDomUtilsProvider.showConfirm(
-            this.INIT_TEMPLATES.joinwaitlistmessage,
-            this.INIT_TEMPLATES.waitlist,
-            this.INIT_TEMPLATES.joinwaitlist,
-    );
-
-    // await promise;
-
-    // const waitlistInfo = await getString('joinwaitlistmessage', 'enrol_bycategory');
-
-    // promise = this.CoreDomUtilsProvider.showConfirm(
-    //         'WAITLIST ACTIVE',
-    //         waitlistInfo,
-    // );
-
-    return promise.then(() => {
     const params = {
         courseid: courseId,
-        password: password,
+        password: password || '',
     };
     if (instanceId) {
         params.instanceid = instanceId;
     }
 
-    return site.write('enrol_bycategory_enrol_user', params).then(response => {
+    return site.write('enrol_bycategory_enrol_user', params).then(async response => {
+
+        // let toast = Promise.resolve();
+        // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(response), true, 2000);
+        // await toast;
         if (response.status) {
             return true;
         }
@@ -132,85 +73,106 @@ const selfEnrol = async (courseId, password, instanceId) => {
 
         throw Error('WS enrol_bycategory_enrol_user failed without warnings');
     });
-    });
-    // .catch(async () => {
-
-    //         promise = this.CoreDomUtilsProvider.showAlert(
-    //         'HEADER',
-    //         'SECOND',
-    // );
-
-    //     await promise;
-
-    //     return false;
-    // });
-
-    // const params = {
-    //     courseid: courseId,
-    //     password: password,
-    // };
-    // if (instanceId) {
-    //     params.instanceid = instanceId;
-    // }
-
-    // return site.write('enrol_bycategory_enrol_user', params).then(response => {
-    //     if (response.status) {
-    //         return true;
-    //     }
-
-    //     if (response.warnings && response.warnings.length) {
-    //         // Invalid password warnings.
-    //         const warning = response.warnings.find((warning) =>
-    //             warning.warningcode == '2' || warning.warningcode == '3' || warning.warningcode == '4');
-
-    //         if (warning) {
-    //             throw new this.CoreWSError({ errorcode: this.CoreCoursesProvider.ENROL_INVALID_KEY, message: warning.message });
-    //         } else {
-    //             throw new this.CoreWSError(response.warnings[0]);
-    //         }
-    //     }
-
-    //     throw Error('WS enrol_bycategory_enrol_user failed without warnings');
-    // });
 };
 
-const validatePassword = (method, password) => {
+const validatePassword = (method, info) => {
 
     return this.CoreDomUtilsProvider.showModalLoading('core.loading', true).then(modal => {
         const result = {
-            password: password || '',
+            password: info.password || '',
         };
 
-        return selfEnrol(method.courseid, password, method.id).then(enroled => {
-            result.validated = enroled;
+        const waitlistActive = info.waitlist;
 
-            return result;
-        }).catch(error => {
-            if (error && error.errorcode === this.CoreCoursesProvider.ENROL_INVALID_KEY) {
-                result.validated = false;
-                result.error = error.message;
+        if (waitlistActive) {
+
+
+            let confirmWaitlist = Promise.resolve();
+
+            confirmWaitlist = this.CoreDomUtilsProvider.showConfirm(
+                    this.TranslateService.instant('plugin.enrol_bycategory.joinwaitlistmessage'),
+                    this.TranslateService.instant('plugin.enrol_bycategory.waitlist'),
+                    this.TranslateService.instant('plugin.enrol_bycategory.joinwaitlist'),
+            );
+
+            confirmWaitlist.then(() => {
+                // User confirmed to join waitlist.
+                let alert = Promise.resolve();
+                alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'YOU TRIED TO JOIN THE WAITLIST BUT THIS FUNCTION IS NOT IMPLEMENTED YET');
+
+                alert.then(() => {
+                    result.validated = false;
+                    modal.dismiss();
+                    return result;
+                });
+            }).catch((error) => {
+                // User canceled waitlist.
+                let alert = Promise.resolve();
+                alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'YOU CANCELED BUT THIS FUNCTION IS NOT IMPLEMENTED YET');
+
+                alert.then(() => {
+                    result.validated = false;
+                    modal.dismiss();
+                    return result;
+                });
+            });
+
+                // let alert = Promise.resolve();
+                // alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'THIS FUNCTION IS NOT IMPLEMENTED YET');
+
+                // alert.then(() => {
+                //     result.validated = false;
+                //     return result;
+                // });
+
+
+        } else {
+           return selfEnrol(method.courseid, info.password, method.id, info).then(async enroled => {
+
+                let toast = Promise.resolve();
+                toast = this.CoreDomUtilsProvider.showToast('ENROLED:' + JSON.stringify({enroled: enroled}), true, 15000);
+                // await toast;
+                toast.then(() => {
+
+                result.validated = enroled;
 
                 return result;
-            }
+                });
+            }).catch(async error => {
+                if (error && error.errorcode === this.CoreCoursesProvider.ENROL_INVALID_KEY) {
+                    result.validated = false;
+                    result.error = error.message;
 
-            this.CoreDomUtilsProvider.showErrorModalDefault(error, 'plugin.enrol_bycategory.errorselfenrol', true);
+                    // let toast = Promise.resolve();
+                    // toast = this.CoreDomUtilsProvider.showToast('RESULT ERROR:' + JSON.stringify(result), true, 10000);
+                    // await toast;
 
-            throw error;
-        }).finally(() => {
-            modal.dismiss();
-        });
+                    return result;
+                }
+
+                this.CoreDomUtilsProvider.showErrorModalDefault(error, 'plugin.enrol_bycategory.errorselfenrol', true);
+
+                throw error;
+            }).finally(() => {
+                modal.dismiss();
+            });
+        }
     });
 };
 
-const performEnrol = (method) => {
+const performEnrol = (method, info) => {
     // Try to enrol without password.
-    return validatePassword(method).then(response => {
+    return validatePassword(method, info).then(async response => {
+
+        // let toast = Promise.resolve();
+        // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(response), true, 2000);
+        // await toast;
         if (response.validated) {
             return true;
         }
 
         // Ask for password.
-        return this.CoreDomUtilsProvider.promptPassword({
+        this.CoreDomUtilsProvider.promptPassword({
             title: method.name,
             validator: (password) => validatePassword(method, password),
             placeholder: 'plugin.enrol_bycategory.password',
@@ -224,46 +186,77 @@ const performEnrol = (method) => {
 };
 
 var result = {
-    // canAccess: (method) => {
-    // let promise = Promise.resolve()
 
-    // promise = this.CoreDomUtilsProvider.showConfirm(
-    //         this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-    //         this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
-    //         'lol',
-    // );
+    enrolmentAction: 'self',
 
-    // return promise.then(() => {
-    //     return performEnrol(method);
-    // }).catch(() => {
-    //     return false;
-    // });
+    getEnrolmentAction: async (methodType) => {
 
-    //     return true
-    // },
-    // componentInit: () => {
-    //     let promise = Promise.resolve()
+        let toast = Promise.resolve();
 
-    //     promise = this.CoreDomUtilsProvider.showConfirm(
-    //             this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-    //             this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
-    //             'lol',
-    //     );
+        toast = this.CoreDomUtilsProvider.showToast('GET ENROLMENT ACTION', true, 2000);
 
-    //     return promise.then(() => {
-    //         return performEnrol(method);
-    //     }).catch(() => {
-    //         return false;
-    //     });
-    // },
-    getInfoIcons: (courseId) => {
+        await toast;
+
+        const handler = this.getHandler(methodType, false);
+        if (!handler) {
+            return CoreEnrolAction.NOT_SUPPORTED;
+        }
+
+        return handler.enrolmentAction;
+    },
+    //#endregion
+    isEnrolSupported: async (methodType) => {
+
+            //         let toast = Promise.resolve();
+
+            // toast = this.CoreDomUtilsProvider.showToast('IS ENROL SUPPORTED', true, 2000);
+
+
+            // await toast;
+        return this.hasHandler(methodType, true);
+    },
+
+    canAccess: async (method) => {
+
+    let toast = Promise.resolve();
+
+    toast = this.CoreDomUtilsProvider.showToast('CAN ACCESS FUNCTION', true, 2000);
+
+    return toast.then(() => {
+        return { canAccess: true };
+    });
+
+    },
+    componentInit: () => {
+     let toast = Promise.resolve();
+
+    toast = this.CoreDomUtilsProvider.showToast('COMPONENT INIT', true, 1000);
+
+    return toast.then(() => {
+        return true;
+    });
+    },
+    validateAccess: async (method) => {
+    let toast = Promise.resolve();
+    toast = this.CoreDomUtilsProvider.showToast('VALIDATING ACCESS', true, 2000);
+    await toast;
+
+    return false;
+
+    },
+    getInfoIcons: async (courseId) => {
+
+        let toast = Promise.resolve();
+        // toast = this.CoreDomUtilsProvider.showToast('GET INFO ICONS TOAST', true, 2000);
+        await toast;
         return this.CoreEnrolService.getSupportedCourseEnrolmentMethods(courseId, 'bycategory').then(enrolments => {
             if (!enrolments.length) {
                 return [];
             }
 
-            // Since this code is for testing purposes just use the first one.
             return getEnrolmentInfo(enrolments[0].id).then(info => {
+
+
                 if (!info.enrolpassword) {
                     return [{
                         label: 'plugin.enrol_bycategory.pluginname',
@@ -282,26 +275,50 @@ var result = {
         return getEnrolmentInfo(method.id).then(info => {
             let promise = Promise.resolve();
 
+            // check waitlist status here
+
+            // info.waitlist = true;
+
+            let waitlistActive = info.waitlist;
+            waitlistActive = true;
+            info.waitlist = waitlistActive;
+            let toast = Promise.resolve();
+            toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(waitlistActive), true, 1000);
+            toast.then(() => {
+
+            })
+
+            let message = this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
+                    this.TranslateService.instant('plugin.enrol_bycategory.nopassword');
+
+            if (waitlistActive) {
+                message += '<br>' + this.TranslateService.instant('plugin.enrol_bycategory.waitlistmessage');
+            }
+
             if (!info.enrolpassword) {
                 promise = this.CoreDomUtilsProvider.showConfirm(
-                    this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-                    this.TranslateService.instant('plugin.enrol_bycategory.nopassword'),
+                    message,
                     method.name,
                 );
             }
 
             return promise.then(() => {
-                return performEnrol(method);
+                return performEnrol(method, info);
             }).catch(() => {
                 return false;
             });
         });
     },
-    invalidate: (method) => {
+    invalidate: async(method) => {
+
+                    let toast = Promise.resolve();
+
+            toast = this.CoreDomUtilsProvider.showToast('IS ENROL SUPPORTED', true, 2000);
+
+
+            await toast;
         return invalidateEnrolmentInfo(method.id);
     },
 };
-
-console.error(this);
 
 result;

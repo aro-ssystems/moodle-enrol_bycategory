@@ -85,9 +85,17 @@ class get_instance_info extends external_api {
      * @return array Information about the enrollment instance
      */
     public static function execute($instanceid) {
-        global $DB, $CFG;
+        global $DB, $CFG, $PAGE;
 
         require_once($CFG->libdir . '/enrollib.php');
+
+        error_log("EXECUTE get_instance_info");
+        // error_log("PAGE: ");
+        // if (isset($PAGE)) {
+        //     error_log(print_r($PAGE, true));
+        // } else {
+        //     error_log("PAGE is not set");
+        // }
 
         $params = self::validate_parameters(self::execute_parameters(), ['instanceid' => $instanceid]);
 
