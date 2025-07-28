@@ -176,6 +176,8 @@ class enrol_user extends external_api {
                 // Do the enrolment.
                 $data = ['enrolpassword' => $params['password']];
 
+                // TODO: check waitlist status here
+
                 $enrol->enrol_self($instance, (object) $data);
                 $enrolled = true;
                 break;

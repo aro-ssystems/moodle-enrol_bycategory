@@ -57,7 +57,7 @@ class get_instance_info extends external_api {
     /**
      * Return parameters description
      *
-     * @return external_description
+     * @return \external_description
      */
     public static function execute_returns() {
         return new external_single_structure(
@@ -71,6 +71,12 @@ class get_instance_info extends external_api {
                 'waitlist' => new external_value(
                     PARAM_BOOL,
                     'whether waitlist is enabled for this instance',
+                    VALUE_DEFAULT,
+                    false
+                ),
+                'userwaitliststatus' => new external_value(
+                    PARAM_BOOL,
+                    'whether user is on waitlist for this instance',
                     VALUE_DEFAULT,
                     false
                 ),
@@ -126,6 +132,7 @@ class get_instance_info extends external_api {
         // $instanceinfo['status'] = true;
 
         $instanceinfo['waitlist'] = (int) $enrolinstance->customchar2;
+        $instanceinfo['userwaitliststatus'] = 1;
 
         error_log(print_r($instanceinfo, true));
 
