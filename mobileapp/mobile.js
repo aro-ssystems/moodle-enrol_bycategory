@@ -381,6 +381,8 @@ var result = {
             // info.waitlist = true;
 
             let waitlistActive = info.waitlist;
+
+            let userWaitlistStatus = info.userwaitliststatus;
             // waitlistActive = true;
             // info.waitlist = waitlistActive;
             // let toast = Promise.resolve();
@@ -389,8 +391,17 @@ var result = {
 
             // })
 
+
             let message = this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
                     this.TranslateService.instant('plugin.enrol_bycategory.nopassword');
+
+            if (userWaitlistStatus) {
+            let toast = Promise.resolve();
+            toast = this.CoreDomUtilsProvider.showToast(JSON.stringify('User is on waitlist'), true, 1000);
+            toast.then(() => {
+
+            })
+            }
 
             if (waitlistActive) {
                 message += '<br>' + this.TranslateService.instant('plugin.enrol_bycategory.waitlistmessage');
@@ -404,6 +415,8 @@ var result = {
             }
 
             return promise.then(() => {
+
+                // TODO check response for waitlist here
                 return performEnrol(method, info);
             }).catch(() => {
                 return false;
