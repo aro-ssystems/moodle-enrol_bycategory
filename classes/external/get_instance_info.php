@@ -85,11 +85,12 @@ class get_instance_info extends external_api {
      * @return array Information about the enrollment instance
      */
     public static function execute($instanceid) {
-        global $DB, $CFG, $PAGE;
+        global $DB, $CFG, $PAGE, $USER;
 
         require_once($CFG->libdir . '/enrollib.php');
 
         error_log("EXECUTE get_instance_info");
+        error_log("USER: " . print_r($USER->email, true));
         // error_log("PAGE: ");
         // if (isset($PAGE)) {
         //     error_log(print_r($PAGE, true));
@@ -118,6 +119,11 @@ class get_instance_info extends external_api {
             $instanceinfo['enrolpassword'] = $instanceinfo['requiredparam']->enrolpassword;
         }
         unset($instanceinfo->requiredparam);
+
+        // $waitlist = new \enrol_bycategory_waitlist($instanceid);
+
+        // $instanceinfo['waitlist'] = !$waitlist->can_enrol($enrolinstance, $USER->id);
+        // $instanceinfo['status'] = true;
 
         $instanceinfo['waitlist'] = (int) $enrolinstance->customchar2;
 
