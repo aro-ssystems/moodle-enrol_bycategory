@@ -31,7 +31,6 @@ const getEnrolmentInfo = (id) => {
     return site.read('enrol_bycategory_get_instance_info', params, preSets);
 };
 
-
 const invalidateEnrolmentInfo = (id) => {
     const site = this.CoreSitesProvider.getCurrentSite();
 
@@ -51,9 +50,6 @@ const selfEnrol = async (courseId, password, instanceId, info) => {
 
     return site.write('enrol_bycategory_enrol_user', params).then(async response => {
 
-        let toast = Promise.resolve();
-        toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(params), true, 2000);
-        await toast;
         if (response.status) {
             return true;
         }
@@ -75,13 +71,6 @@ const selfEnrol = async (courseId, password, instanceId, info) => {
 };
 
 const validatePassword = async (method, info) => {
-
-    // three params? pw is second, info is third => here, info is "test" pw input
-
-        let toast = Promise.resolve();
-        toast = this.CoreDomUtilsProvider.showToast("INFO: " + JSON.stringify(info), true, 5000);
-        await toast;
-
     return this.CoreDomUtilsProvider.showModalLoading('core.loading', true).then(modal => {
         const result = {
             password: info.password || '',
@@ -111,7 +100,7 @@ const validatePassword = async (method, info) => {
                     alert.then(() => {
                         result.waitlistadded = true
                         result.validated = false;
-                        // modal.dismiss();
+
                         return result;
                     });
 
@@ -131,16 +120,10 @@ const validatePassword = async (method, info) => {
                 });
 
             }).catch((error) => {
-
-                // let alert = Promise.resolve();
-                // alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'YOU CANCELED BUT THIS FUNCTION IS NOT IMPLEMENTED YET');
-
-                // alert.then(() => {
                     result.validated = false;
                     result.canceled = true;
                     modal.dismiss();
                     return result;
-                // });
             });
 
 
@@ -177,9 +160,6 @@ const performEnrol = (method, info) => {
     // Try to enrol without password.
     return validatePassword(method, info).then(response => {
 
-        // let toast = Promise.resolve();
-        // toast = this.CoreDomUtilsProvider.showToast("RESPONSE:" + JSON.stringify(response), true, 5000);
-        // toast.then(() => {
             if (response.validated) {
                 return true;
             }
@@ -192,9 +172,7 @@ const performEnrol = (method, info) => {
                 return false;
             }
 
-            // return false;
         // Ask for password.
-
         if (info.enrolpassword) {
             return this.CoreDomUtilsProvider.promptPassword({
                 title: method.name,
@@ -213,82 +191,12 @@ const performEnrol = (method, info) => {
             return false;
         }
 
-
-        // });
-
-        // // Ask for password.
-        // this.CoreDomUtilsProvider.promptPassword({
-        //     title: method.name,
-        //     validator: (password) => validatePassword(method, password),
-        //     placeholder: 'plugin.enrol_bycategory.password',
-        //     submit: 'core.courses.enrolme',
-        // }).then(response => {
-        //     return response.validated;
-        // });
     }).catch(() => {
         return false;
     });
 };
 
 var result = {
-
-    // enrolmentAction: 'guest',
-
-    getEnrolmentAction: async (methodType) => {
-
-        let toast = Promise.resolve();
-
-        toast = this.CoreDomUtilsProvider.showToast('GET ENROLMENT ACTION', true, 2000);
-
-        await toast;
-
-        const handler = this.getHandler(methodType, false);
-        if (!handler) {
-            return CoreEnrolAction.NOT_SUPPORTED;
-        }
-
-        return handler.enrolmentAction;
-    },
-
-    isEnrolSupported: async (methodType) => {
-
-        let toast = Promise.resolve();
-
-        toast = this.CoreDomUtilsProvider.showToast('IS ENROL SUPPORTED', true, 2000);
-
-        await toast;
-
-        return this.hasHandler(methodType, true);
-    },
-
-    canAccess: async (method) => {
-
-    let toast = Promise.resolve();
-
-    toast = this.CoreDomUtilsProvider.showToast('CAN ACCESS FUNCTION', true, 2000);
-
-    return toast.then(() => {
-        return { canAccess: true };
-    });
-
-    },
-    componentInit: () => {
-     let toast = Promise.resolve();
-
-    toast = this.CoreDomUtilsProvider.showToast('COMPONENT INIT', true, 1000);
-
-    return toast.then(() => {
-        return true;
-    });
-    },
-    validateAccess: async (method) => {
-    let toast = Promise.resolve();
-    toast = this.CoreDomUtilsProvider.showToast('VALIDATING ACCESS', true, 2000);
-    await toast;
-
-    return false;
-
-    },
     getInfoIcons: async (courseId) => {
 
         return this.CoreEnrolService.getSupportedCourseEnrolmentMethods(courseId, 'bycategory').then(async enrolments => {
@@ -298,7 +206,6 @@ var result = {
             }
 
             return getEnrolmentInfo(enrolments[0].id).then(info => {
-
 
                 if (!info.enrolpassword) {
                     return [{
@@ -319,19 +226,10 @@ var result = {
             let promise = Promise.resolve();
 
             let waitlistActive = info.waitlist;
-
             let userWaitlistStatus = info.userwaitliststatus;
             let canEnrol = info.waitlistcanenrol;
 
             let message = this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol');
-
-            if (userWaitlistStatus) {
-            let toast = Promise.resolve();
-            toast = this.CoreDomUtilsProvider.showToast(JSON.stringify('User is on waitlist'), true, 1000);
-            toast.then(() => {
-
-            })
-            }
 
             if (waitlistActive) {
                 if (userWaitlistStatus) {
@@ -361,12 +259,6 @@ var result = {
     },
     invalidate: async(method) => {
 
-                    let toast = Promise.resolve();
-
-            toast = this.CoreDomUtilsProvider.showToast('IS ENROL SUPPORTED', true, 2000);
-
-
-            await toast;
         return invalidateEnrolmentInfo(method.id);
     },
 };

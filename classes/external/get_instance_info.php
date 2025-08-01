@@ -57,7 +57,7 @@ class get_instance_info extends external_api {
     /**
      * Return parameters description
      *
-     * @return \external_description
+     * @return external_description
      */
     public static function execute_returns() {
         return new external_single_structure(
@@ -97,7 +97,7 @@ class get_instance_info extends external_api {
      * @return array Information about the enrollment instance
      */
     public static function execute($instanceid) {
-        global $DB, $CFG, $PAGE, $USER;
+        global $DB, $CFG, $USER;
 
         require_once($CFG->libdir . '/enrollib.php');
 
@@ -123,10 +123,11 @@ class get_instance_info extends external_api {
         }
 
         $waitlist = new \enrol_bycategory_waitlist($instanceid);
-
         $userwaitliststatus = $waitlist->is_on_waitlist($USER->id);
 
-        $userwaitlistcanenrol = $waitlist->enrol_has_open_slots();
+        $waitlistcount = $waitlist->get_count();
+
+        $userwaitlistcanenrol = $waitlist->enrol_has_open_slots() && $waitlistcount == 0;
 
         $instanceinfo['waitlist'] = (int) $enrolinstance->customchar2;
         $instanceinfo['userwaitliststatus'] = $userwaitliststatus;

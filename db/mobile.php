@@ -31,21 +31,7 @@ $addons = [
                 'delegate' => 'CoreEnrolDelegate',
                 'enrolmentAction' => 'self',
                 'method' => 'mobile_js',
-                // 'init' => 'mobile_init',
             ],
-            // 'enrolbycategory_filter' => [
-            //     // 'delegate' => 'CoreFilterDelegate',
-            //     'method' => 'mobile_js',
-            // ],
-        //     'bycategory_waitlist' => [
-        //         'delegate' => 'CoreCourseOptionsDelegate',
-        //         'displaydata' => [
-        //             'title' => 'just testing'
-        //         ],
-        //         'ismenuhandler' => true,
-        //         'method' => 'waitlist_js',
-        //     //     // 'init' => 'mobile_init',
-        //     // ],
         ],
         'lang' => [
             ['pluginname', 'enrol_bycategory'],
