@@ -116,7 +116,6 @@ $string['groupkey_help'] = 'In addition to restricting access to the course to o
 Note: An enrolment key for the course must be specified in the self enrolment settings as well as group enrolment keys in the group settings.';
 $string['joinwaitlist'] = 'Join waiting list';
 $string['joinwaitlistmessage'] = 'You can join the waiting list and will be informed every day when a slot becomes available.';
-$string['waitlistmessage'] = 'There is a waiting list for this course.';
 $string['keyholder'] = 'You should have received this enrolment key from:';
 $string['leavewaitlist'] = 'Leave waiting list';
 $string['longtimenosee'] = 'Unenrol inactive after';
@@ -124,8 +123,8 @@ $string['longtimenosee_help'] = 'If users haven\'t accessed a course for a long 
 $string['maxenrolled'] = 'Max enrolled users';
 $string['maxenrolled_help'] = 'Specifies the maximum number of users that can self enrol. 0 means no limit.';
 $string['maxenrolledreached'] = 'Maximum number of users allowed to self-enrol was already reached.';
-$string['messageprovider:expiry_notification'] = 'By Category enrolment expiry notifications';
-$string['messageprovider:waitlist_notification'] = 'By Category enrolment waiting list notifications';
+$string['message_provider:expiry_notification'] = 'By Category enrolment expiry notifications';
+$string['message_provider:waitlist_notification'] = 'By Category enrolment waiting list notifications';
 $string['newenrols'] = 'Allow new enrolments';
 $string['newenrols_desc'] = 'Allow users to self enrol into new courses by default.';
 $string['newenrols_help'] = 'This setting determines whether a user can enrol into this course.';
@@ -208,5 +207,6 @@ If you have not done so already, you should edit your profile page so that we ca
 
   {$a->profileurl}';
 $string['wrongtokenuser'] = 'The link was meant for another user. Please wait until you receive your Email.';
+$string['waitlistadded'] = 'You have been added to the waiting list.';
 $string['youareonthewaitlist'] = 'You are currently on the waiting list.';
 $string['waitlistadded'] = 'You have been added to the waiting list.';
