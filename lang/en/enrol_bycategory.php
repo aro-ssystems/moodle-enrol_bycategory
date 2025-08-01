@@ -167,7 +167,6 @@ $string['usepasswordpolicy_desc'] = 'Use standard password policy for enrolment 
 $string['usernotonwaitlist'] = 'You are not on the waiting list of this course.';
 $string['waitlist'] = 'Waiting List';
 $string['waitlist_active'] = '{$a} user(s) on the waiting list';
-$string['waitlistadded'] = 'You have been added to the waiting list.';
 $string['waitlist_blocked_message'] = 'You have been notified 5 times about an available slot without reacting.
 
 You will not receive any more notifications.
@@ -182,7 +181,6 @@ The e-mail is sent daily, if at least one slot is available.
 Your current position on the waiting list is: {$a->waitlistposition}.
 If you don\'t like to wait any longer, you can use the following button to leave the waiting list.
 ';
-$string['waitlistmessage'] = 'There is a waiting list for this course.';
 $string['waitlist_notification_body'] = 'Hello {$a->userfullname},
 a spot in course {$a->coursename} is available.
 
@@ -198,6 +196,8 @@ $string['waitlist_notification_subject'] = 'There\'s a spot available in course 
 $string['waitlist_status_info'] = 'Up to {$a->notifycount} Users from the waitinglist are informed about a free spot in this course {$a->nextruntime}.
 Users are only informed {$a->notifylimit} times without reaction until they are ignored.';
 $string['waitlist_users'] = 'Users on waiting list';
+$string['waitlistadded'] = 'You have been added to the waiting list.';
+$string['waitlistmessage'] = 'There is a waiting list for this course.';
 $string['waitlistnotifycount'] = 'Number of users to notify about an available slot';
 $string['waitlistnotifycount_help'] = 'Notify up to x users on the waiting list when a slot becomes available. The first user to react can enrol into the course.';
 $string['waitlistnotifylimit'] = 'Amount of times a user is being notified at most';
