@@ -59,6 +59,8 @@ $addons = [
             ['joinwaitlistmessage', 'enrol_bycategory'],
             ['waitlistmessage', 'enrol_bycategory'],
             ['maxenrolledreached', 'enrol_bycategory'],
+            ['youareonthewaitlist', 'enrol_bycategory'],
+            ['waitlistadded', 'enrol_bycategory'],
 
         ],
     ],

@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 const getEnrolmentInfoCacheKey = (id) => {
     return 'PluginEnrolByCategory:' + id;
 };
@@ -50,11 +49,11 @@ const selfEnrol = async (courseId, password, instanceId, info) => {
         params.instanceid = instanceId;
     }
 
-    return site.write('enrol_bycategory_enrol_user', params).then(response => {
+    return site.write('enrol_bycategory_enrol_user', params).then(async response => {
 
-        // let toast = Promise.resolve();
-        // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(response), true, 2000);
-        // await toast;
+        let toast = Promise.resolve();
+        toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(params), true, 2000);
+        await toast;
         if (response.status) {
             return true;
         }
@@ -75,7 +74,13 @@ const selfEnrol = async (courseId, password, instanceId, info) => {
     });
 };
 
-const validatePassword = (method, info) => {
+const validatePassword = async (method, info) => {
+
+    // three params? pw is second, info is third => here, info is "test" pw input
+
+        let toast = Promise.resolve();
+        toast = this.CoreDomUtilsProvider.showToast("INFO: " + JSON.stringify(info), true, 5000);
+        await toast;
 
     return this.CoreDomUtilsProvider.showModalLoading('core.loading', true).then(modal => {
         const result = {
@@ -83,9 +88,9 @@ const validatePassword = (method, info) => {
         };
 
         const waitlistActive = info.waitlist;
+        const canEnrol = info.waitlistcanenrol;
 
-        if (waitlistActive) {
-
+        if (waitlistActive && !canEnrol) {
 
             let confirmWaitlist = Promise.resolve();
 
@@ -96,26 +101,21 @@ const validatePassword = (method, info) => {
             );
 
             return confirmWaitlist.then(() => {
-                // User confirmed to join waitlist.
-
-                // let toast = Promise.resolve();
-                // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify('CONFIRMED'), true, 1000);
-                // await toast;
 
                 return selfEnrol(method.courseid, info.password, method.id, info).then(enroled => {
 
-                // let toast = Promise.resolve();
-                // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify('RESULT'), true, 1500);
-                // await toast;
-                // let toast2 = Promise.resolve();
-                // toast2 = this.CoreDomUtilsProvider.showToast(JSON.stringify('enroled'), true, 1500);
-                // toast2.then(() => {
+                    let alert = Promise.resolve();
+                    alert = this.CoreDomUtilsProvider.showAlert(this.TranslateService.instant('plugin.enrol_bycategory.waitlist'),
+                        this.TranslateService.instant('plugin.enrol_bycategory.waitlistadded'));
 
-                result.validated = enroled;
-                return result;
-                // });
+                    alert.then(() => {
+                        result.waitlistadded = true
+                        result.validated = false;
+                        // modal.dismiss();
+                        return result;
+                    });
 
-                }).catch(async error => {
+                }).catch(error => {
                     if (error && error.errorcode === this.CoreCoursesProvider.ENROL_INVALID_KEY) {
                         result.validated = false;
                         result.error = error.message;
@@ -131,46 +131,30 @@ const validatePassword = (method, info) => {
                 });
 
             }).catch((error) => {
-                // User canceled waitlist.
-                let alert = Promise.resolve();
-                alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'YOU CANCELED BUT THIS FUNCTION IS NOT IMPLEMENTED YET');
-
-                alert.then(() => {
-                    result.validated = false;
-                    modal.dismiss();
-                    return result;
-                });
-            });
 
                 // let alert = Promise.resolve();
-                // alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'THIS FUNCTION IS NOT IMPLEMENTED YET');
+                // alert = this.CoreDomUtilsProvider.showAlert('NOT IMPLEMENTED', 'YOU CANCELED BUT THIS FUNCTION IS NOT IMPLEMENTED YET');
 
                 // alert.then(() => {
-                //     result.validated = false;
-                //     return result;
+                    result.validated = false;
+                    result.canceled = true;
+                    modal.dismiss();
+                    return result;
                 // });
+            });
 
 
         } else {
            return selfEnrol(method.courseid, info.password, method.id, info).then(enroled => {
 
-                // let toast = Promise.resolve();
-                // toast = this.CoreDomUtilsProvider.showToast('ENROLED:' + JSON.stringify({enroled: enroled}), true, 15000);
-                // // await toast;
-                // toast.then(() => {
-
                 result.validated = enroled;
 
                 return result;
-                // });
+
             }).catch(async error => {
                 if (error && error.errorcode === this.CoreCoursesProvider.ENROL_INVALID_KEY) {
                     result.validated = false;
                     result.error = error.message;
-
-                    // let toast = Promise.resolve();
-                    // toast = this.CoreDomUtilsProvider.showToast('RESULT ERROR:' + JSON.stringify(result), true, 10000);
-                    // await toast;
 
                     return result;
                 }
@@ -186,26 +170,51 @@ const validatePassword = (method, info) => {
 };
 
 const performEnrol = (method, info) => {
+
+    if (info.userwaitliststatus) {
+        return false;
+    }
     // Try to enrol without password.
     return validatePassword(method, info).then(response => {
 
-        let toast = Promise.resolve();
-        toast = this.CoreDomUtilsProvider.showToast("RESPONSE:" + JSON.stringify(response), true, 2000);
-        return toast.then(() => {
+        // let toast = Promise.resolve();
+        // toast = this.CoreDomUtilsProvider.showToast("RESPONSE:" + JSON.stringify(response), true, 5000);
+        // toast.then(() => {
             if (response.validated) {
                 return true;
             }
-        // Ask for password.
-        this.CoreDomUtilsProvider.promptPassword({
-            title: method.name,
-            validator: (password) => validatePassword(method, password),
-            placeholder: 'plugin.enrol_bycategory.password',
-            submit: 'core.courses.enrolme',
-        }).then(response => {
-            return response.validated;
-        });
 
-        });
+            if (response.waitlistadded) {
+                return false;
+            }
+
+            if (response.canceled) {
+                return false;
+            }
+
+            // return false;
+        // Ask for password.
+
+        if (info.enrolpassword) {
+            return this.CoreDomUtilsProvider.promptPassword({
+                title: method.name,
+                validator: (password) => {
+
+                    info.password = password;
+
+                    return validatePassword(method, info);
+                },
+                placeholder: 'plugin.enrol_bycategory.password',
+                submit: 'core.courses.enrolme',
+            }).then(response => {
+                return response.validated;
+            });
+        } else {
+            return false;
+        }
+
+
+        // });
 
         // // Ask for password.
         // this.CoreDomUtilsProvider.promptPassword({
@@ -282,75 +291,8 @@ var result = {
     },
     getInfoIcons: async (courseId) => {
 
-        // let toast = Promise.resolve();
-        // toast = this.CoreDomUtilsProvider.showToast('GET INFO ICONS TOAST', true, 2000);
-        // await toast;
-
-        // const icons = [];
-
-        //             icons.push({
-        //                 label: 'addon.enrol_bycategory.pluginname',
-        //                 icon: 'fas-right-to-bracket',
-        //             });
-
-        //         return icons;
-
-        // let enrol = Promise.resolve();
-
-        // enrol = this.CoreEnrolService.getCourseEnrolmentMethods(courseId);
-
-        // enrol.then(async enrolments => {
-        //     // let toast = Promise.resolve();
-        //     // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(enrolments), true, 2000);
-        //     // await toast;
-
-        //     const bycategoryEnrolments = enrolments.filter(enrolment => enrolment.type === 'bycategory');
-
-        //     if (bycategoryEnrolments.length > 0) {
-        //         const firstBycategoryEnrolment = bycategoryEnrolments[0];
-
-        //         if (firstBycategoryEnrolment.status === this.TranslateService.instant('plugin.enrol_bycategory.maxenrolledreached')) {
-        //                 return getEnrolmentInfo(firstBycategoryEnrolment.id).then(async info => {
-        //                 // let toast = Promise.resolve();
-        //                 // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(info), true, 5000);
-        //                 // await toast;
-        //         const icons = [];
-        //         if (!info.enrolpassword) {
-        //             icons.push({
-        //                 label: 'addon.enrol_bycategory.pluginname',
-        //                 icon: 'fas-right-to-bracket',
-        //             });
-        //         } else {
-        //             icons.push({
-        //                 label: 'addon.enrol_bycategory.pluginname',
-        //                 icon: 'fas-key',
-        //             });
-        //         }
-
-        //         return icons;
-
-
-                        // if (!info.enrolpassword) {
-                        //     return [{
-                        //         label: 'plugin.enrol_bycategory.pluginname',
-                        //         icon: 'fas-right-to-bracket',
-                        //     }];
-                        // } else {
-                        //     return [{
-                        //         label: 'plugin.enrol_bycategory.pluginname',
-                        //         icon: 'fas-key',
-                        //     }];
-                        // }
-            //         });
-            //     }
-            // }
-
-        // });
-
         return this.CoreEnrolService.getSupportedCourseEnrolmentMethods(courseId, 'bycategory').then(async enrolments => {
-            // let toast = Promise.resolve();
-            // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(enrolments), true, 2000);
-            // await toast;
+
             if (!enrolments.length) {
                 return [];
             }
@@ -376,24 +318,12 @@ var result = {
         return getEnrolmentInfo(method.id).then(info => {
             let promise = Promise.resolve();
 
-            // check waitlist status here
-
-            // info.waitlist = true;
-
             let waitlistActive = info.waitlist;
 
             let userWaitlistStatus = info.userwaitliststatus;
-            // waitlistActive = true;
-            // info.waitlist = waitlistActive;
-            // let toast = Promise.resolve();
-            // toast = this.CoreDomUtilsProvider.showToast(JSON.stringify(waitlistActive), true, 1000);
-            // toast.then(() => {
+            let canEnrol = info.waitlistcanenrol;
 
-            // })
-
-
-            let message = this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol') + '<br>' +
-                    this.TranslateService.instant('plugin.enrol_bycategory.nopassword');
+            let message = this.TranslateService.instant('plugin.enrol_bycategory.confirmselfenrol');
 
             if (userWaitlistStatus) {
             let toast = Promise.resolve();
@@ -404,19 +334,25 @@ var result = {
             }
 
             if (waitlistActive) {
-                message += '<br>' + this.TranslateService.instant('plugin.enrol_bycategory.waitlistmessage');
+                if (userWaitlistStatus) {
+                    message = this.TranslateService.instant('plugin.enrol_bycategory.youareonthewaitlist');
+                } else if (!canEnrol) {
+                    message += '<br>' + this.TranslateService.instant('plugin.enrol_bycategory.waitlistmessage');
+                }
             }
 
             if (!info.enrolpassword) {
-                promise = this.CoreDomUtilsProvider.showConfirm(
-                    message,
-                    method.name,
-                );
+                message += '<br>' +
+                    this.TranslateService.instant('plugin.enrol_bycategory.nopassword');
             }
+
+            promise = this.CoreDomUtilsProvider.showConfirm(
+                    message,
+                    method.name
+                );
 
             return promise.then(() => {
 
-                // TODO check response for waitlist here
                 return performEnrol(method, info);
             }).catch(() => {
                 return false;
