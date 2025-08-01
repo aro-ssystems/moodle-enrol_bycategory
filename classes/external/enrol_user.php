@@ -176,25 +176,16 @@ class enrol_user extends external_api {
                 // Do the enrolment.
                 $data = ['enrolpassword' => $params['password']];
 
-                // TODO: check waitlist status here
-
-                error_log("BEFORE ENROL TRY");
-
                 if ($instance->customchar2) {
-
-                    error_log("BEFORE WAITLIST TRY");
                     $waitlist = new \enrol_bycategory_waitlist($instance->id);
-                    $userwaitlistcanenrol = $waitlist->enrol_has_open_slots();
 
-                    error_log("BEFORE SECOND IF");
+                    $waitlistcount = $waitlist->get_count();
+                    $userwaitlistcanenrol = $waitlist->enrol_has_open_slots() && $waitlistcount == 0;
 
                     if ($userwaitlistcanenrol) {
-
-                        error_log("BEFORE ENROL SELF IN IF");
                         $enrol->enrol_self($instance, (object) $data);
                         $enrolled = true;
                     } else {
-                        error_log("BEFORE ADD USER TO WAITLIST IN ELSE");
                         if (!$waitlist->is_on_waitlist($USER->id)) {
                             $waitlist->add_user($USER->id);
                         }
@@ -203,9 +194,6 @@ class enrol_user extends external_api {
                     }
                     break;
                 }
-
-
-
 
                 $enrol->enrol_self($instance, (object) $data);
                 $enrolled = true;

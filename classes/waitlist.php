@@ -302,38 +302,31 @@ class enrol_bycategory_waitlist {
             }
         }
 
-        error_log("USER AGENT");
-        error_log(print_r($_SERVER['HTTP_USER_AGENT'], true));
-
         if ($instance->customint3 > 0) {
             // Max enrol limit specified.
             $count = $DB->count_records('user_enrolments', ['enrolid' => $instance->id]);
             if ($count >= $instance->customint3) {
                 // Bad luck, no more self enrolments here.
-                // return true;
-                // error_log("USER AGENT");
-                // error_log(print_r($_SERVER['HTTP_USER_AGENT'], true));
-                error_log("COUNT BIGGER THAN CUSTOMINT3");
+
                 if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MoodleMobile') !== false) {
                     // If the user is using the Moodle Mobile app, we do not show the error message.
-                    // this can not return true
                     return true;
                 }
-
 
                 return get_string('maxenrolledreached', 'enrol_bycategory');
             }
 
             // Empty spaces available and waiting list is enabled.
             if (1 == $instance->customchar2 && false === $ignorewaitlist) {
+
                 $waitlist = new enrol_bycategory_waitlist($instance->id);
                 $waitlistcount = $waitlist->get_count();
                 if ($waitlistcount > 0) {
 
-                if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MoodleMobile') !== false) {
-                    // return true;
-                }
-                error_log("WAITLIST COUNT BIGGER THAN 0");
+                    if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MoodleMobile') !== false) {
+                    // If the user is using the Moodle Mobile app, we do not show the error message.
+                    return true;
+                    }
                     // Users on the waiting list have to be enroled first before self enrolment becomes available again.
                     return get_string('maxenrolledreached', 'enrol_bycategory');
                 }

@@ -34,20 +34,6 @@ namespace enrol_bycategory\output;
  */
 class mobile {
 
-    public static function mobile_init($args) {
-        global $CFG, $OUTPUT;
-        $data = ['testdata' => 'foo'];
-        return [
-            'templates' => [
-                                [
-                    'id' => 'main',
-                    'html' => $OUTPUT->render_from_template('enrol_bycategory/mobile', $data),
-                ],
-            ],
-            'javascript' => file_get_contents($CFG->dirroot . '/enrol/bycategory/mobileapp/waitlist.js'),
-        ];
-    }
-
 
     /**
      * Returns the JS to implement app support for enrol self test.
@@ -57,44 +43,12 @@ class mobile {
      * @return array   HTML, javascript and otherdata
      */
     public static function mobile_js($args) {
-        global $CFG, $OUTPUT;
-        $data = ['testdata' => 'foo'];
+        global $CFG;
         return [
-            'templates' => [
-                // [
-                //     'id' => 'joinwaitlistmessage',
-                //     'html' => get_string('joinwaitlistmessage', 'enrol_bycategory'),
-                // ],
-                // [
-                //     'id' => 'waitlist',
-                //     'html' => get_string('waitlist', 'enrol_bycategory'),
-                // ],
-                // [
-                //     'id' => 'joinwaitlist',
-                //     'html' => get_string('joinwaitlist', 'enrol_bycategory'),
-                // ],
-
-            ],
+            'templates' => [],
             'javascript' => file_get_contents($CFG->dirroot . '/enrol/bycategory/mobileapp/mobile.js'),
-            'otherdata' => [
-                // 'joinwaitlistmessage' => get_string('joinwaitlistmessage', 'enrol_bycategory'),
-                // 'waitlist_active' => get_string('waitlist_active', 'enrol_bycategory')
-            ],
+            'otherdata' => '',
             'files' => '',
-        ];
-    }
-
-    public static function waitlist_js($args) {
-        global $CFG, $OUTPUT;
-        $data = ['testdata' => 'foo'];
-        return [
-            'templates' => [
-                                [
-                    'id' => 'main',
-                    'html' => $OUTPUT->render_from_template('enrol_bycategory/mobile', $data),
-                ],
-            ],
-            'javascript' => file_get_contents($CFG->dirroot . '/enrol/bycategory/mobileapp/waitlist.js'),
         ];
     }
 

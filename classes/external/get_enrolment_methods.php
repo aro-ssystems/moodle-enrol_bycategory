@@ -70,8 +70,6 @@ class get_enrolment_methods extends external_api {
      */
     public static function execute($courseid) {
 
-        error_log("EXECUTE get_enrolment_methods");
-
         $params = self::validate_parameters(self::execute_parameters(), ['courseid' => $courseid]);
 
         $course = get_course($courseid);
