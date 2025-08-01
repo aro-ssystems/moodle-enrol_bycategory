@@ -80,6 +80,12 @@ class get_instance_info extends external_api {
                     VALUE_DEFAULT,
                     false
                 ),
+                'waitlistcanenrol' => new external_value(
+                    PARAM_BOOL,
+                    'whether user is on waitlist for this instance',
+                    VALUE_DEFAULT,
+                    false
+                ),
             ]
         );
     }
@@ -94,15 +100,6 @@ class get_instance_info extends external_api {
         global $DB, $CFG, $PAGE, $USER;
 
         require_once($CFG->libdir . '/enrollib.php');
-
-        error_log("EXECUTE get_instance_info");
-        error_log("USER: " . print_r($USER->email, true));
-        // error_log("PAGE: ");
-        // if (isset($PAGE)) {
-        //     error_log(print_r($PAGE, true));
-        // } else {
-        //     error_log("PAGE is not set");
-        // }
 
         $params = self::validate_parameters(self::execute_parameters(), ['instanceid' => $instanceid]);
 
@@ -121,20 +118,19 @@ class get_instance_info extends external_api {
         }
 
         $instanceinfo = (array) $enrolplugin->get_enrol_info($enrolinstance);
-        if (isset($instanceinfo['requiredparam']->enrolpassword)) {
-            $instanceinfo['enrolpassword'] = $instanceinfo['requiredparam']->enrolpassword;
+        if (!empty($enrolinstance->password)) {
+            $instanceinfo['enrolpassword'] = true;
         }
-        unset($instanceinfo->requiredparam);
 
-        // $waitlist = new \enrol_bycategory_waitlist($instanceid);
+        $waitlist = new \enrol_bycategory_waitlist($instanceid);
 
-        // $instanceinfo['waitlist'] = !$waitlist->can_enrol($enrolinstance, $USER->id);
-        // $instanceinfo['status'] = true;
+        $userwaitliststatus = $waitlist->is_on_waitlist($USER->id);
+
+        $userwaitlistcanenrol = $waitlist->enrol_has_open_slots();
 
         $instanceinfo['waitlist'] = (int) $enrolinstance->customchar2;
-        $instanceinfo['userwaitliststatus'] = 1;
-
-        error_log(print_r($instanceinfo, true));
+        $instanceinfo['userwaitliststatus'] = $userwaitliststatus;
+        $instanceinfo['waitlistcanenrol'] = $userwaitlistcanenrol;
 
         return $instanceinfo;
     }

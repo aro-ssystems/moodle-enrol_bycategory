@@ -316,6 +316,7 @@ class enrol_bycategory_waitlist {
                 error_log("COUNT BIGGER THAN CUSTOMINT3");
                 if (!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MoodleMobile') !== false) {
                     // If the user is using the Moodle Mobile app, we do not show the error message.
+                    // this can not return true
                     return true;
                 }
 
@@ -467,4 +468,29 @@ class enrol_bycategory_waitlist {
 
         return $startofday->getTimestamp();
     }
+
+    public function has_open_slots() {
+        global $DB;
+
+        $instance = $DB->get_record('enrol', ['id' => $this->instanceid], '*', MUST_EXIST);
+
+
+        return false;
+    }
+
+    public function enrol_has_open_slots() {
+        global $DB;
+
+        $instance = $DB->get_record('enrol', ['id' => $this->instanceid], '*', MUST_EXIST);
+
+        $count = $DB->count_records('user_enrolments', ['enrolid' => $instance->id]);
+
+        if ($instance->customint3 != 0 && $count >= $instance->customint3) {
+            // No more open enrolment slots.
+            return false;
+        }
+
+        return true;
+    }
+
 }
