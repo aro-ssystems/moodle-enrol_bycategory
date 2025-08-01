@@ -167,6 +167,7 @@ $string['usepasswordpolicy_desc'] = 'Use standard password policy for enrolment 
 $string['usernotonwaitlist'] = 'You are not on the waiting list of this course.';
 $string['waitlist'] = 'Waiting List';
 $string['waitlist_active'] = '{$a} user(s) on the waiting list';
+$string['waitlistadded'] = 'You have been added to the waiting list.';
 $string['waitlist_blocked_message'] = 'You have been notified 5 times about an available slot without reacting.
 
 You will not receive any more notifications.
@@ -181,6 +182,7 @@ The e-mail is sent daily, if at least one slot is available.
 Your current position on the waiting list is: {$a->waitlistposition}.
 If you don\'t like to wait any longer, you can use the following button to leave the waiting list.
 ';
+$string['waitlistmessage'] = 'There is a waiting list for this course.';
 $string['waitlist_notification_body'] = 'Hello {$a->userfullname},
 a spot in course {$a->coursename} is available.
 
@@ -207,6 +209,4 @@ If you have not done so already, you should edit your profile page so that we ca
 
   {$a->profileurl}';
 $string['wrongtokenuser'] = 'The link was meant for another user. Please wait until you receive your Email.';
-$string['waitlistadded'] = 'You have been added to the waiting list.';
 $string['youareonthewaitlist'] = 'You are currently on the waiting list.';
-$string['waitlistadded'] = 'You have been added to the waiting list.';
